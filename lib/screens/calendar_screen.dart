@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -154,7 +153,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -221,7 +220,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 10,
                     offset: const Offset(0, 3),
                   ),
@@ -330,7 +329,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 10,
                     offset: const Offset(0, 3),
                   ),

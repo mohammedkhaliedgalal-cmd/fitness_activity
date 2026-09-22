@@ -45,7 +45,6 @@ class FitnessOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -59,7 +58,6 @@ class FitnessOverviewScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -67,23 +65,17 @@ class FitnessOverviewScreen extends StatelessWidget {
             const HeaderImage(
               imagePath: 'assets/images/Frame 3.jpg',
             ),
-
             const SizedBox(height: 28),
-
             const HeaderTitleSection(
               title: 'Your Fitness Journey',
               subtitle:
                   'Stay active, track your progress, and reach your fitness goals.',
             ),
-
             const SizedBox(height: 26),
-
             const FeatureList(
               features: _features,
             ),
-
             const SizedBox(height: 8),
-
             GetStartedButton(
               onPressed: () {},
             ),
@@ -163,9 +155,7 @@ class HeaderTitleSection extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         const SizedBox(height: 8),
-
         Text(
           subtitle,
           textAlign: TextAlign.center,
@@ -232,7 +222,7 @@ class FeatureCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -253,9 +243,7 @@ class FeatureCard extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,9 +255,7 @@ class FeatureCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 5),
-
                 Text(
                   feature.subtitle,
                   style: const TextStyle(

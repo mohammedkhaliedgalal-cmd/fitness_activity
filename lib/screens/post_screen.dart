@@ -39,6 +39,30 @@ class _PostScreenState extends State<PostScreen> {
         savedPosts.add(title);
       }
     });
+
+    final bool isSaved = savedPosts.contains(title);
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            isSaved ? '$title saved' : '$title removed from saved',
+          ),
+          duration: const Duration(milliseconds: 1200),
+        ),
+      );
+  }
+
+  void openComments(String title) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CommentsScreen(
+          postTitle: title,
+        ),
+      ),
+    );
   }
 
   @override
@@ -62,28 +86,24 @@ class _PostScreenState extends State<PostScreen> {
         child: Column(
           children: [
             _postCard(
-              context,
               image: 'assets/images/Feeds.jpg',
               title: 'Today Activity',
               description:
                   'Keep moving and stay consistent with your workout.',
             ),
             _postCard(
-              context,
               image: 'assets/images/Discover.jpg',
               title: 'Discover',
               description:
                   'Discover new workouts and fitness activities.',
             ),
             _postCard(
-              context,
               image: 'assets/images/Friends.jpg',
               title: 'Friends',
               description:
                   'Share your progress with your friends.',
             ),
             _postCard(
-              context,
               image: 'assets/images/Reward.jpg',
               title: 'Your Reward',
               description:
@@ -95,8 +115,7 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  Widget _postCard(
-    BuildContext context, {
+  Widget _postCard({
     required String image,
     required String title,
     required String description,
@@ -112,7 +131,7 @@ class _PostScreenState extends State<PostScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -123,6 +142,8 @@ class _PostScreenState extends State<PostScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
+
+          // POST IMAGE
           Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
@@ -135,7 +156,10 @@ class _PostScreenState extends State<PostScreen> {
                   return Container(
                     width: 220,
                     height: 130,
-                    color: Colors.grey[300],
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     child: const Icon(
                       Icons.image_not_supported_outlined,
                       size: 40,
@@ -146,6 +170,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 15, 16, 18),
             child: Column(
@@ -158,7 +183,9 @@ class _PostScreenState extends State<PostScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 7),
+
                 Text(
                   description,
                   style: const TextStyle(
@@ -166,13 +193,17 @@ class _PostScreenState extends State<PostScreen> {
                     color: Colors.grey,
                   ),
                 ),
+
                 const SizedBox(height: 15),
+
                 Row(
                   children: [
+                    // LIKE
                     IconButton(
                       onPressed: () {
                         toggleLike(title);
                       },
+                      tooltip: 'Like',
                       icon: Icon(
                         isLiked
                             ? Icons.favorite
@@ -180,6 +211,7 @@ class _PostScreenState extends State<PostScreen> {
                         color: isLiked ? Colors.red : Colors.black,
                       ),
                     ),
+
                     if (likes > 0)
                       Text(
                         '$likes',
@@ -187,26 +219,27 @@ class _PostScreenState extends State<PostScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+
+                    // COMMENTS
                     IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => CommentsScreen(
-                              postTitle: title,
-                            ),
-                          ),
-                        );
+                        openComments(title);
                       },
+                      tooltip: 'Comments',
                       icon: const Icon(
                         Icons.chat_bubble_outline,
+                        color: Colors.black,
                       ),
                     ),
+
                     const Spacer(),
+
+                    // SAVE
                     IconButton(
                       onPressed: () {
                         toggleSave(title);
                       },
+                      tooltip: 'Save',
                       icon: Icon(
                         isSaved
                             ? Icons.bookmark

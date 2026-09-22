@@ -62,7 +62,6 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -76,12 +75,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Edit profile image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
@@ -108,9 +105,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 28),
-
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -121,9 +116,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 18),
-
             TextField(
               controller: nameController,
               textInputAction: TextInputAction.next,
@@ -138,9 +131,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 14),
-
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
@@ -156,9 +147,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 14),
-
             TextField(
               controller: goalController,
               textInputAction: TextInputAction.done,
@@ -173,9 +162,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 24),
-
             SizedBox(
               width: double.infinity,
               height: 52,
@@ -189,10 +176,7 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
-
-            // Profile preview
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
@@ -201,7 +185,7 @@ class _EditScreenState extends State<EditScreen> {
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 8,
                     offset: const Offset(0, 3),
                   ),
@@ -217,25 +201,19 @@ class _EditScreenState extends State<EditScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 15),
-
                   _profileRow(
                     icon: Icons.person_outline,
                     title: 'Name',
                     value: savedName,
                   ),
-
                   const SizedBox(height: 12),
-
                   _profileRow(
                     icon: Icons.email_outlined,
                     title: 'Email',
                     value: savedEmail,
                   ),
-
                   const SizedBox(height: 12),
-
                   _profileRow(
                     icon: Icons.flag_outlined,
                     title: 'Fitness Goal',
@@ -244,7 +222,6 @@ class _EditScreenState extends State<EditScreen> {
                 ],
               ),
             ),
-
             const SizedBox(height: 10),
           ],
         ),
@@ -272,9 +249,7 @@ class _EditScreenState extends State<EditScreen> {
             size: 22,
           ),
         ),
-
         const SizedBox(width: 12),
-
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,9 +261,7 @@ class _EditScreenState extends State<EditScreen> {
                   fontSize: 12,
                 ),
               ),
-
               const SizedBox(height: 3),
-
               Text(
                 value,
                 style: const TextStyle(

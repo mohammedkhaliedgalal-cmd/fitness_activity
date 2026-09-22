@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'activity_screen.dart';
@@ -88,13 +87,11 @@ class AllScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
         foregroundColor: Colors.black,
-
         title: const Text(
           'All',
           style: TextStyle(
@@ -103,10 +100,8 @@ class AllScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
-
         child: Column(
           children: [
             const SizedBox(height: 10),
@@ -116,29 +111,24 @@ class AllScreen extends StatelessWidget {
               child: Container(
                 width: 220,
                 height: 130,
-
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
-
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
+                      color: Colors.black.withValues(alpha: 0.04),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
-
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(18),
-
                   child: Image.asset(
                     'assets/images/All.jpg',
                     width: 220,
                     height: 130,
                     fit: BoxFit.cover,
-
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
                         child: Icon(
@@ -157,7 +147,6 @@ class AllScreen extends StatelessWidget {
 
             const Align(
               alignment: Alignment.centerLeft,
-
               child: Text(
                 'Explore Everything',
                 style: TextStyle(
@@ -172,9 +161,7 @@ class AllScreen extends StatelessWidget {
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-
               itemCount: categories.length,
-
               gridDelegate:
                   const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -182,7 +169,6 @@ class AllScreen extends StatelessWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 0.95,
               ),
-
               itemBuilder: (context, index) {
                 final category = categories[index];
 
@@ -193,38 +179,30 @@ class AllScreen extends StatelessWidget {
                       category['title'] as String,
                     );
                   },
-
                   borderRadius: BorderRadius.circular(18),
-
                   child: Container(
                     padding: const EdgeInsets.all(14),
-
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(18),
-
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.03),
+                          color: Colors.black.withValues(alpha: 0.03),
                           blurRadius: 8,
                           offset: const Offset(0, 3),
                         ),
                       ],
                     ),
-
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-
                       children: [
                         Container(
                           width: 55,
                           height: 55,
-
                           decoration: BoxDecoration(
                             color: const Color(0xFFF0F2F5),
                             borderRadius: BorderRadius.circular(16),
                           ),
-
                           child: Icon(
                             category['icon'] as IconData,
                             size: 28,
@@ -237,7 +215,6 @@ class AllScreen extends StatelessWidget {
                         Text(
                           category['title'] as String,
                           textAlign: TextAlign.center,
-
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -249,7 +226,6 @@ class AllScreen extends StatelessWidget {
                         Text(
                           category['subtitle'] as String,
                           textAlign: TextAlign.center,
-
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 11,

@@ -41,7 +41,6 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -68,9 +67,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
-
             const Text(
               'Workout Library',
               textAlign: TextAlign.center,
@@ -79,9 +76,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 8),
-
             const Text(
               'Choose a workout and start training whenever you are ready.',
               textAlign: TextAlign.center,
@@ -91,36 +86,28 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 height: 1.5,
               ),
             ),
-
             const SizedBox(height: 25),
-
             _workoutItem(
               title: 'Full Body Workout',
               duration: '30 min',
               level: 'Beginner',
               icon: Icons.fitness_center,
             ),
-
             const SizedBox(height: 12),
-
             _workoutItem(
               title: 'Cardio Training',
               duration: '25 min',
               level: 'Intermediate',
               icon: Icons.directions_run,
             ),
-
             const SizedBox(height: 12),
-
             _workoutItem(
               title: 'Strength Workout',
               duration: '40 min',
               level: 'Advanced',
               icon: Icons.sports_gymnastics,
             ),
-
             const SizedBox(height: 25),
-
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
@@ -129,7 +116,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 8,
                     offset: const Offset(0, 3),
                   ),
@@ -144,9 +131,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                     size: 50,
                     color: Colors.black,
                   ),
-
                   const SizedBox(height: 10),
-
                   Text(
                     isPlaying ? 'Workout is playing' : 'Ready to play',
                     style: const TextStyle(
@@ -154,9 +139,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 15),
-
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -180,7 +163,6 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 ],
               ),
             ),
-
             const SizedBox(height: 10),
           ],
         ),
@@ -205,7 +187,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
@@ -226,9 +208,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 color: Colors.black,
               ),
             ),
-
             const SizedBox(width: 13),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,9 +220,7 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 5),
-
                   Text(
                     '$duration • $level',
                     style: const TextStyle(
@@ -253,7 +231,6 @@ class _LibraryPlayScreenState extends State<LibraryPlayScreen> {
                 ],
               ),
             ),
-
             const Icon(
               Icons.arrow_forward_ios,
               size: 15,

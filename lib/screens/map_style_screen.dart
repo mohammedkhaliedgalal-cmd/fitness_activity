@@ -104,60 +104,62 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
             const SizedBox(height: 16),
 
             // Map Styles
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: styles.length,
-              itemBuilder: (context, index) {
-                final isSelected = selectedStyle == index;
+            RadioGroup<int>(
+              groupValue: selectedStyle,
+              onChanged: (value) {
+                if (value == null) {
+                  return;
+                }
 
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedStyle = index;
-                    });
-                  },
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.transparent,
-                        width: 2,
-                      ),
-                    ),
-                    child: ListTile(
-                      leading: Icon(
-                        icons[index],
-                        size: 28,
-                      ),
-                      title: Text(
-                        styles[index],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
+                setState(() {
+                  selectedStyle = value;
+                });
+              },
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: styles.length,
+                itemBuilder: (context, index) {
+                  final isSelected = selectedStyle == index;
+
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedStyle = index;
+                      });
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.transparent,
+                          width: 2,
                         ),
                       ),
-                      trailing: Radio<int>(
-                        value: index,
-                        groupValue: selectedStyle,
-                        onChanged: (value) {
-                          if (value == null) {
-                            return;
-                          }
-
-                          setState(() {
-                            selectedStyle = value;
-                          });
-                        },
+                      child: ListTile(
+                        leading: Icon(
+                          icons[index],
+                          size: 28,
+                        ),
+                        title: Text(
+                          styles[index],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        trailing: Radio<int>(
+                          value: index,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
 
             const SizedBox(height: 8),

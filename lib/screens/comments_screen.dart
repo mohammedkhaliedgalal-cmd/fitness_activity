@@ -43,10 +43,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
   void _addComment() {
     final text = _controller.text.trim();
 
-    if (text.isEmpty) return;
+    if (text.isEmpty) {
+      return;
+    }
 
     setState(() {
-      _comments.add(
+      _comments.insert(
+        0,
         CommentModel(
           userName: 'You',
           text: text,
@@ -56,6 +59,45 @@ class _CommentsScreenState extends State<CommentsScreen> {
     });
 
     _controller.clear();
+    FocusScope.of(context).unfocus();
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(
+          content: Text('Comment added successfully'),
+          duration: Duration(milliseconds: 1200),
+        ),
+      );
+  }
+
+  void _deleteComment(int index) {
+    final comment = _comments[index];
+
+    if (comment.userName != 'You') {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(
+            content: Text('You can only delete your comments'),
+            duration: Duration(milliseconds: 1200),
+          ),
+        );
+      return;
+    }
+
+    setState(() {
+      _comments.removeAt(index);
+    });
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(
+          content: Text('Comment deleted'),
+          duration: Duration(milliseconds: 1200),
+        ),
+      );
   }
 
   @override
@@ -68,7 +110,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: Text(
           widget.postTitle,
@@ -81,7 +122,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: Column(
         children: [
           Expanded(
@@ -101,87 +141,88 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     itemBuilder: (context, index) {
                       final comment = _comments[index];
 
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.03),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundColor: const Color(0xFFE9EDF2),
-                              child: Text(
-                                comment.userName.isNotEmpty
-                                    ? comment.userName[0].toUpperCase()
-                                    : '?',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                      return GestureDetector(
+                        onLongPress: () {
+                          _deleteComment(index);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: 0.03,
+                                ),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: const Color(0xFFE9EDF2),
+                                child: Text(
+                                  comment.userName.isNotEmpty
+                                      ? comment.userName[0].toUpperCase()
+                                      : '?',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-
-                            const SizedBox(width: 12),
-
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          comment.userName,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            comment.userName,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
-                                      ),
-
-                                      const SizedBox(width: 8),
-
-                                      Text(
-                                        comment.timeAgo,
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          comment.timeAgo,
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-
-                                  const SizedBox(height: 4),
-
-                                  Text(
-                                    comment.text,
-                                    style: const TextStyle(
-                                      fontSize: 15,
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      comment.text,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
                   ),
           ),
-
           SafeArea(
             child: Container(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
@@ -208,9 +249,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(width: 8),
-
                   CircleAvatar(
                     radius: 24,
                     backgroundColor: Colors.black,

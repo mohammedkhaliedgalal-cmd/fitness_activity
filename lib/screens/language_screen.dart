@@ -15,13 +15,18 @@ class _LanguageScreenState extends State<LanguageScreen> {
     'Arabic',
     'French',
     'Spanish',
+    'German',
+    'Italian',
+    'Turkish',
+    'Russian',
+    'Chinese',
+    'Japanese',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'Language',
@@ -34,7 +39,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -83,7 +87,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         borderRadius: BorderRadius.circular(18),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.03),
+                            color: Colors.black.withValues(alpha: 0.03),
                             blurRadius: 7,
                             offset: const Offset(0, 2),
                           ),
@@ -160,6 +164,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 ),
               ),
             ),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),

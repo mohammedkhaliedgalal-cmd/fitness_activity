@@ -15,7 +15,8 @@ class WorkoutDetailsScreen extends StatelessWidget {
         return AlertDialog(
           title: Text(name),
           content: Text(
-            'Exercise: $name\nDuration: $duration\n\n'
+            'Exercise: $name\n'
+            'Duration: $duration\n\n'
             'Follow the correct form and keep your movements controlled.',
             style: const TextStyle(
               color: Colors.grey,
@@ -39,6 +40,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
+
       appBar: AppBar(
         title: const Text(
           'Workout Details',
@@ -51,11 +53,14 @@ class WorkoutDetailsScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 15),
+
+            // Workout image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
@@ -68,7 +73,10 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     return Container(
                       width: 220,
                       height: 130,
-                      color: Colors.grey.shade200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       child: const Icon(
                         Icons.fitness_center,
                         size: 50,
@@ -79,6 +87,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -91,7 +100,9 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 10),
+
                   const Text(
                     'A complete workout designed to help you stay active and reach your fitness goals.',
                     style: TextStyle(
@@ -100,18 +111,29 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
+
                   const SizedBox(height: 25),
+
+                  // Workout information
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: const Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Duration',
@@ -127,9 +149,12 @@ class WorkoutDetailsScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         SizedBox(height: 18),
+
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Calories',
@@ -145,9 +170,12 @@ class WorkoutDetailsScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         SizedBox(height: 18),
+
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Exercises',
@@ -166,7 +194,9 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 25),
+
                   const Text(
                     'Exercises',
                     style: TextStyle(
@@ -174,33 +204,42 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 12),
+
                   _exerciseItem(
                     context,
                     'Warm Up',
                     '5 min',
                   ),
+
                   _exerciseItem(
                     context,
                     'Squats',
                     '3 sets',
                   ),
+
                   _exerciseItem(
                     context,
                     'Push Ups',
                     '3 sets',
                   ),
+
                   _exerciseItem(
                     context,
                     'Lunges',
                     '3 sets',
                   ),
+
                   _exerciseItem(
                     context,
                     'Plank',
                     '60 sec',
                   ),
+
                   const SizedBox(height: 25),
+
+                  // Start workout button
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -223,6 +262,8 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -252,6 +293,13 @@ class WorkoutDetailsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -259,7 +307,9 @@ class WorkoutDetailsScreen extends StatelessWidget {
               Icons.fitness_center,
               size: 25,
             ),
+
             const SizedBox(width: 15),
+
             Expanded(
               child: Text(
                 name,
@@ -269,13 +319,16 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Text(
               duration,
               style: const TextStyle(
                 color: Colors.grey,
               ),
             ),
+
             const SizedBox(width: 8),
+
             const Icon(
               Icons.arrow_forward_ios,
               size: 14,

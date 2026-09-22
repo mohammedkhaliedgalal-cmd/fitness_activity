@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'language_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -10,7 +12,64 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool notifications = true;
   bool sound = true;
+  bool music = true;
   bool darkMode = false;
+
+  final AudioPlayer _musicPlayer = AudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start music automatically when Settings opens
+    _startMusic();
+  }
+
+  Future<void> _startMusic() async {
+    if (!music) return;
+
+    try {
+      await _musicPlayer.setReleaseMode(ReleaseMode.loop);
+      await _musicPlayer.setVolume(sound ? 1.0 : 0.0);
+      await _musicPlayer.play(
+        AssetSource('audio/workout_music.mp3'),
+      );
+    } catch (e) {
+      debugPrint('Music error: $e');
+    }
+  }
+
+  Future<void> _stopMusic() async {
+    try {
+      await _musicPlayer.stop();
+    } catch (e) {
+      debugPrint('Music stop error: $e');
+    }
+  }
+
+  Future<void> _toggleMusic(bool value) async {
+    setState(() {
+      music = value;
+    });
+
+    if (value) {
+      await _startMusic();
+    } else {
+      await _stopMusic();
+    }
+  }
+
+  Future<void> _toggleSound(bool value) async {
+    setState(() {
+      sound = value;
+    });
+
+    try {
+      await _musicPlayer.setVolume(value ? 1.0 : 0.0);
+    } catch (e) {
+      debugPrint('Sound error: $e');
+    }
+  }
 
   void showMessage(String title, String message) {
     showDialog(
@@ -30,6 +89,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _musicPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,6 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             const SizedBox(height: 10),
 
+            // Settings Image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -105,6 +171,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SizedBox(height: 25),
 
+            // Notifications
             _settingsItem(
               icon: Icons.notifications_none,
               title: 'Notifications',
@@ -121,26 +188,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SizedBox(height: 12),
 
+            // Sound
             _settingsItem(
               icon: Icons.volume_up_outlined,
               title: 'Sound',
-              subtitle: 'Enable app sounds',
+              subtitle: sound
+                  ? 'App sounds are enabled'
+                  : 'App sounds are disabled',
               trailing: Switch(
                 value: sound,
-                onChanged: (value) {
-                  setState(() {
-                    sound = value;
-                  });
-                },
+                onChanged: _toggleSound,
               ),
             ),
 
             const SizedBox(height: 12),
 
+            // Music
+            _settingsItem(
+              icon: Icons.music_note_outlined,
+              title: 'Music',
+              subtitle: music
+                  ? 'Workout music is playing'
+                  : 'Workout music is disabled',
+              trailing: Switch(
+                value: music,
+                onChanged: _toggleMusic,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Dark Mode
             _settingsItem(
               icon: Icons.dark_mode_outlined,
               title: 'Dark Mode',
-              subtitle: 'Use dark appearance',
+              subtitle: darkMode
+                  ? 'Dark appearance is enabled'
+                  : 'Use dark appearance',
               trailing: Switch(
                 value: darkMode,
                 onChanged: (value) {
@@ -153,6 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SizedBox(height: 12),
 
+            // Language
             _settingsItem(
               icon: Icons.language,
               title: 'Language',
@@ -163,15 +248,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.grey,
               ),
               onTap: () {
-                showMessage(
-                  'Language',
-                  'English is currently selected.',
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LanguageScreen(),
+                  ),
                 );
               },
             ),
 
             const SizedBox(height: 12),
 
+            // Privacy
             _settingsItem(
               icon: Icons.lock_outline,
               title: 'Privacy',
@@ -191,6 +279,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             const SizedBox(height: 12),
 
+            // About
             _settingsItem(
               icon: Icons.info_outline,
               title: 'About',
@@ -233,7 +322,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class AllImagesScreen extends StatelessWidget {
@@ -62,19 +61,15 @@ class AllImagesScreen extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-
           child: Padding(
             padding: const EdgeInsets.all(15),
-
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-
                 children: [
                   Text(
                     imageName,
                     textAlign: TextAlign.center,
-
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -85,13 +80,11 @@ class AllImagesScreen extends StatelessWidget {
 
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-
                     child: Image.asset(
                       'assets/images/$imageName',
                       width: double.infinity,
                       height: 350,
                       fit: BoxFit.contain,
-
                       errorBuilder: (
                         context,
                         error,
@@ -100,16 +93,13 @@ class AllImagesScreen extends StatelessWidget {
                         return Container(
                           height: 180,
                           alignment: Alignment.center,
-
                           decoration: BoxDecoration(
                             color: Colors.red.shade50,
                             borderRadius: BorderRadius.circular(15),
                           ),
-
                           child: Text(
                             'Image not found\n$imageName',
                             textAlign: TextAlign.center,
-
                             style: const TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
@@ -125,12 +115,10 @@ class AllImagesScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     height: 45,
-
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.pop(dialogContext);
                       },
-
                       child: const Text(
                         'CLOSE',
                         style: TextStyle(
@@ -152,7 +140,6 @@ class AllImagesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'All Images',
@@ -160,29 +147,24 @@ class AllImagesScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: ListView.builder(
         padding: const EdgeInsets.all(20),
         itemCount: images.length,
-
         itemBuilder: (context, index) {
           final imageName = images[index];
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 25),
-
             child: Column(
               children: [
                 Text(
                   '${index + 1}. $imageName',
                   textAlign: TextAlign.center,
-
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -197,35 +179,28 @@ class AllImagesScreen extends StatelessWidget {
                     onTap: () {
                       openImage(context, imageName);
                     },
-
                     borderRadius: BorderRadius.circular(18),
-
                     child: Container(
                       width: 220,
                       height: 130,
-
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
-
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.04),
+                            color: Colors.black.withValues(alpha: 0.04),
                             blurRadius: 8,
                             offset: const Offset(0, 3),
                           ),
                         ],
                       ),
-
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(18),
-
                         child: Image.asset(
                           'assets/images/$imageName',
                           width: 220,
                           height: 130,
                           fit: BoxFit.cover,
-
                           errorBuilder: (
                             context,
                             error,
@@ -233,16 +208,13 @@ class AllImagesScreen extends StatelessWidget {
                           ) {
                             return Container(
                               alignment: Alignment.center,
-
                               decoration: BoxDecoration(
                                 color: Colors.red.shade50,
                                 borderRadius: BorderRadius.circular(18),
                               ),
-
                               child: Text(
                                 'Image not found\n$imageName',
                                 textAlign: TextAlign.center,
-
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,

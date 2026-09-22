@@ -1,21 +1,72 @@
 import 'package:flutter/material.dart';
 
-class StepsScreen extends StatelessWidget {
-  final int currentSteps;
-  final int goalSteps;
-  final double distanceKm;
-  final int caloriesKcal;
-
+class StepsScreen extends StatefulWidget {
   const StepsScreen({
     super.key,
-    this.currentSteps = 8426,
+    this.initialSteps = 8426,
     this.goalSteps = 10000,
-    this.distanceKm = 5.8,
-    this.caloriesKcal = 324,
   });
 
-  double get _progress => (currentSteps / goalSteps).clamp(0.0, 1.0);
-  int get _percentage => (_progress * 100).round();
+  final int initialSteps;
+  final int goalSteps;
+
+  @override
+  State<StepsScreen> createState() => _StepsScreenState();
+}
+
+class _StepsScreenState extends State<StepsScreen> {
+  late int currentSteps;
+
+  @override
+  void initState() {
+    super.initState();
+    currentSteps = widget.initialSteps;
+  }
+
+  double get progress {
+    if (widget.goalSteps <= 0) {
+      return 0;
+    }
+
+    return (currentSteps / widget.goalSteps).clamp(0.0, 1.0);
+  }
+
+  int get percentage {
+    return (progress * 100).round();
+  }
+
+  double get distanceKm {
+    return currentSteps * 0.000688;
+  }
+
+  int get caloriesKcal {
+    return (currentSteps * 0.0384).round();
+  }
+
+  void addSteps() {
+    setState(() {
+      currentSteps += 100;
+    });
+  }
+
+  void removeSteps() {
+    setState(() {
+      currentSteps = (currentSteps - 100).clamp(0, 999999);
+    });
+  }
+
+  void resetSteps() {
+    setState(() {
+      currentSteps = widget.initialSteps;
+    });
+  }
+
+  String formatNumber(int number) {
+    return number.toString().replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (match) => '${match[1]},',
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +83,20 @@ class StepsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: resetSteps,
+            tooltip: 'Reset',
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // IMAGE
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -50,7 +109,10 @@ class StepsScreen extends StatelessWidget {
                     return Container(
                       width: 220,
                       height: 130,
-                      color: Colors.grey.shade200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: const Icon(
                         Icons.directions_walk,
                         size: 50,
@@ -61,17 +123,20 @@ class StepsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 25),
+
             const Text(
-              'Today\'s Steps',
+              "Today's Steps",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const SizedBox(height: 15),
 
-            // Primary Step Counter Card
+            // STEP COUNTER
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(25),
@@ -80,7 +145,7 @@ class StepsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -93,15 +158,19 @@ class StepsScreen extends StatelessWidget {
                     size: 45,
                     color: Colors.black,
                   ),
+
                   const SizedBox(height: 12),
+
                   Text(
-                    _formatNumber(currentSteps),
+                    formatNumber(currentSteps),
                     style: const TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 5),
+
                   const Text(
                     'Steps',
                     style: TextStyle(
@@ -109,24 +178,45 @@ class StepsScreen extends StatelessWidget {
                       fontSize: 15,
                     ),
                   ),
+
+                  const SizedBox(height: 20),
+
+                  // + / -
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _controlButton(
+                        icon: Icons.remove,
+                        onPressed: currentSteps > 0
+                            ? removeSteps
+                            : null,
+                      ),
+                      const SizedBox(width: 15),
+                      _controlButton(
+                        icon: Icons.add,
+                        onPressed: addSteps,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
+
             const SizedBox(height: 20),
 
-            // Secondary Info Cards Row
+            // DISTANCE + CALORIES
             Row(
               children: [
                 Expanded(
-                  child: InfoCard(
+                  child: _infoCard(
                     title: 'Distance',
-                    value: '$distanceKm km',
+                    value: '${distanceKm.toStringAsFixed(1)} km',
                     icon: Icons.route,
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: InfoCard(
+                  child: _infoCard(
                     title: 'Calories',
                     value: '$caloriesKcal kcal',
                     icon: Icons.local_fire_department,
@@ -134,6 +224,7 @@ class StepsScreen extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 25),
 
             const Text(
@@ -143,14 +234,82 @@ class StepsScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const SizedBox(height: 12),
 
-            // Daily Goal Progress Section
-            StepProgressCard(
-              currentSteps: currentSteps,
-              goalSteps: goalSteps,
-              progress: _progress,
-              percentage: _percentage,
+            // PROGRESS
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${formatNumber(currentSteps)} / ${formatNumber(widget.goalSteps)}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '$percentage%',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor:
+                          const Color(0xFFF0F1F3),
+                      valueColor:
+                          const AlwaysStoppedAnimation<Color>(
+                        Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Center(
+              child: Text(
+                currentSteps >= widget.goalSteps
+                    ? '🎉 Daily goal completed!'
+                    : '${formatNumber(widget.goalSteps - currentSteps)} steps left to reach your goal',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: currentSteps >= widget.goalSteps
+                      ? Colors.black
+                      : Colors.grey,
+                ),
+              ),
             ),
           ],
         ),
@@ -158,28 +317,38 @@ class StepsScreen extends StatelessWidget {
     );
   }
 
-  String _formatNumber(int number) {
-    return number.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
+  // CONTROL BUTTON
+  Widget _controlButton({
+    required IconData icon,
+    required VoidCallback? onPressed,
+  }) {
+    return Material(
+      color: const Color(0xFFF0F1F3),
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(14),
+        child: SizedBox(
+          width: 52,
+          height: 48,
+          child: Icon(
+            icon,
+            size: 24,
+            color: onPressed == null
+                ? Colors.grey
+                : Colors.black,
+          ),
+        ),
+      ),
+    );
   }
-}
 
-class InfoCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-
-  const InfoCard({
-    super.key,
-    required this.title,
-    required this.value,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  // INFO CARD
+  Widget _infoCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -187,7 +356,7 @@ class InfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -219,81 +388,5 @@ class InfoCard extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class StepProgressCard extends StatelessWidget {
-  final int currentSteps;
-  final int goalSteps;
-  final double progress;
-  final int percentage;
-
-  const StepProgressCard({
-    super.key,
-    required this.currentSteps,
-    required this.goalSteps,
-    required this.progress,
-    required this.percentage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${_format(currentSteps)} / ${_format(goalSteps)}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-              Text(
-                '$percentage%',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 10,
-              backgroundColor: const Color(0xFFF0F1F3),
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                Colors.black,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _format(int number) {
-    return number.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
   }
 }

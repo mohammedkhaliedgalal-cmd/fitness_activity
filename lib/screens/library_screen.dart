@@ -19,7 +19,6 @@ class LibraryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'Library',
@@ -32,14 +31,11 @@ class LibraryScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             const SizedBox(height: 10),
-
-            // Library Image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -66,9 +62,7 @@ class LibraryScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
-
             const Text(
               'Library',
               style: TextStyle(
@@ -76,9 +70,7 @@ class LibraryScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 8),
-
             const Text(
               'Explore your saved workouts and fitness content.',
               textAlign: TextAlign.center,
@@ -88,9 +80,7 @@ class LibraryScreen extends StatelessWidget {
                 height: 1.5,
               ),
             ),
-
             const SizedBox(height: 25),
-
             _libraryItem(
               context: context,
               icon: Icons.fitness_center,
@@ -103,9 +93,7 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
-
             const SizedBox(height: 12),
-
             _libraryItem(
               context: context,
               icon: Icons.play_circle_outline,
@@ -118,9 +106,7 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
-
             const SizedBox(height: 12),
-
             _libraryItem(
               context: context,
               icon: Icons.favorite_outline,
@@ -133,9 +119,7 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
-
             const SizedBox(height: 12),
-
             _libraryItem(
               context: context,
               icon: Icons.bookmark_outline,
@@ -148,9 +132,7 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
-
             const SizedBox(height: 25),
-
             SizedBox(
               width: double.infinity,
               height: 52,
@@ -173,7 +155,6 @@ class LibraryScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
           ],
         ),
@@ -199,7 +180,7 @@ class LibraryScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
@@ -220,9 +201,7 @@ class LibraryScreen extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-
             const SizedBox(width: 13),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,9 +213,7 @@ class LibraryScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 4),
-
                   Text(
                     subtitle,
                     style: const TextStyle(
@@ -247,7 +224,6 @@ class LibraryScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const Icon(
               Icons.arrow_forward_ios,
               size: 15,

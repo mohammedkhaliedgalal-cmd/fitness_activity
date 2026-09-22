@@ -94,7 +94,10 @@ class MyWorkoutsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Workout Image
+            // ==========================================
+            // WORKOUT IMAGE
+            // ==========================================
+
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -107,7 +110,10 @@ class MyWorkoutsScreen extends StatelessWidget {
                     return Container(
                       width: 220,
                       height: 130,
-                      color: Colors.grey[300],
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: const Icon(
                         Icons.fitness_center,
                         size: 50,
@@ -141,7 +147,10 @@ class MyWorkoutsScreen extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            // Workout List
+            // ==========================================
+            // WORKOUT LIST
+            // ==========================================
+
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -161,7 +170,10 @@ class MyWorkoutsScreen extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            // Back Button
+            // ==========================================
+            // BACK BUTTON
+            // ==========================================
+
             SizedBox(
               width: double.infinity,
               height: 55,
@@ -213,7 +225,7 @@ class MyWorkoutsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 8,
                 offset: const Offset(0, 3),
               ),
@@ -221,7 +233,10 @@ class MyWorkoutsScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // Workout Icon
+              // ==========================================
+              // WORKOUT ICON
+              // ==========================================
+
               Container(
                 width: 52,
                 height: 52,
@@ -238,7 +253,10 @@ class MyWorkoutsScreen extends StatelessWidget {
 
               const SizedBox(width: 15),
 
-              // Workout Information
+              // ==========================================
+              // WORKOUT INFORMATION
+              // ==========================================
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,7 +330,10 @@ class WorkoutInfoScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 30),
 
-            // Workout Icon
+            // ==========================================
+            // WORKOUT ICON
+            // ==========================================
+
             Container(
               width: 110,
               height: 110,
@@ -340,7 +361,10 @@ class WorkoutInfoScreen extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // Duration & Calories
+            // ==========================================
+            // DURATION & CALORIES
+            // ==========================================
+
             Row(
               children: [
                 Expanded(
@@ -377,7 +401,10 @@ class WorkoutInfoScreen extends StatelessWidget {
 
             const SizedBox(height: 35),
 
-            // Start Workout
+            // ==========================================
+            // START WORKOUT
+            // ==========================================
+
             SizedBox(
               width: double.infinity,
               height: 55,
@@ -409,7 +436,10 @@ class WorkoutInfoScreen extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            // Back Button
+            // ==========================================
+            // BACK BUTTON
+            // ==========================================
+
             SizedBox(
               width: double.infinity,
               height: 55,
@@ -440,6 +470,10 @@ class WorkoutInfoScreen extends StatelessWidget {
       ),
     );
   }
+
+  // ==========================================
+  // DETAIL CARD
+  // ==========================================
 
   Widget _detailCard(
     IconData icon,
