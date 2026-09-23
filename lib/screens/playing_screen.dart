@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class PlayingScreen extends StatefulWidget {
   const PlayingScreen({super.key});
@@ -13,6 +14,11 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
   final int totalSeconds = 35 * 60;
 
+  final AudioPlayer _musicPlayer = AudioPlayer();
+
+  static const String _musicFile =
+      'audio/Albumaty.Com_lyl_almhmdy_bghyr_alyk_mn_alaywn (1).mp3';
+
   int get currentSeconds {
     return (progress * totalSeconds).round();
   }
@@ -25,6 +31,74 @@ class _PlayingScreenState extends State<PlayingScreen> {
         '${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _startMusic();
+  }
+
+  Future<void> _startMusic() async {
+    try {
+      await _musicPlayer.setReleaseMode(ReleaseMode.loop);
+
+      await _musicPlayer.setVolume(1.0);
+
+      await _musicPlayer.play(
+        AssetSource(_musicFile),
+      );
+
+      if (mounted) {
+        setState(() {
+          isPlaying = true;
+        });
+      }
+    } catch (e) {
+      debugPrint('Playing screen music error: $e');
+
+      if (mounted) {
+        setState(() {
+          isPlaying = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _pauseMusic() async {
+    try {
+      await _musicPlayer.pause();
+
+      if (mounted) {
+        setState(() {
+          isPlaying = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Music pause error: $e');
+    }
+  }
+
+  Future<void> _resumeMusic() async {
+    try {
+      await _musicPlayer.resume();
+
+      if (mounted) {
+        setState(() {
+          isPlaying = true;
+        });
+      }
+    } catch (e) {
+      debugPrint('Music resume error: $e');
+    }
+  }
+
+  Future<void> _toggleMusic() async {
+    if (isPlaying) {
+      await _pauseMusic();
+    } else {
+      await _resumeMusic();
+    }
+  }
+
   void changeProgress(double amount) {
     setState(() {
       progress = (progress + amount).clamp(0.0, 1.0);
@@ -35,6 +109,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
     });
 
     if (progress >= 1.0) {
+      _pauseMusic();
+
       showDialog(
         context: context,
         builder: (context) {
@@ -55,6 +131,13 @@ class _PlayingScreenState extends State<PlayingScreen> {
         },
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _musicPlayer.stop();
+    _musicPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,6 +162,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
           children: [
             const SizedBox(height: 10),
 
+            // Playing Image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -231,11 +315,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                           color: Colors.black,
                         ),
                         child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isPlaying = !isPlaying;
-                            });
-                          },
+                          onPressed: _toggleMusic,
                           icon: Icon(
                             isPlaying
                                 ? Icons.pause

@@ -17,11 +17,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   final AudioPlayer _musicPlayer = AudioPlayer();
 
+  // Real MP3 file inside assets/audio/
+  static const String _musicFile =
+      'audio/Albumaty.Com_lyl_almhmdy_bghyr_alyk_mn_alaywn (1).mp3';
+
   @override
   void initState() {
     super.initState();
-
-    // Start music automatically when Settings opens
     _startMusic();
   }
 
@@ -29,10 +31,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (!music) return;
 
     try {
+      await _musicPlayer.stop();
+
       await _musicPlayer.setReleaseMode(ReleaseMode.loop);
+
       await _musicPlayer.setVolume(sound ? 1.0 : 0.0);
+
       await _musicPlayer.play(
-        AssetSource('audio/workout_music.mp3'),
+        AssetSource(_musicFile),
       );
     } catch (e) {
       debugPrint('Music error: $e');
@@ -93,6 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void dispose() {
+    _musicPlayer.stop();
     _musicPlayer.dispose();
     super.dispose();
   }
