@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../app_translations.dart';
+
 import 'account_screen.dart';
 import 'activity_screen.dart';
 import 'add_comment_screen.dart';
@@ -57,9 +59,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     MapScreen(),
   ];
 
-  // =========================
-  // OPEN DRAWER SCREEN
-  // =========================
+  String get languageCode {
+    return Localizations.localeOf(context).languageCode;
+  }
+
+  String t(String key) {
+    return AppTranslations.text(key, languageCode);
+  }
+
   void openScreen(Widget screen) {
     Navigator.of(context).pop();
 
@@ -74,9 +81,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
-  // =========================
-  // TOGGLE DARK MODE
-  // =========================
   void toggleDarkMode() {
     Navigator.of(context).pop();
     widget.onDarkModeChanged();
@@ -90,13 +94,17 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       appBar: AppBar(
         title: const Text(
           'Fitness Activity',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor,
+        foregroundColor:
+            Theme.of(context).appBarTheme.foregroundColor,
         elevation: 0,
       ),
 
@@ -128,12 +136,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       child: Icon(
                         Icons.fitness_center,
                         size: 30,
-                        color: isDark ? Colors.white : Colors.black,
+                        color: isDark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                     const SizedBox(height: 12),
                     const Text(
                       'Fitness Activity',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.bold,
@@ -142,8 +154,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                     const SizedBox(height: 4),
                     Text(
                       'All Features',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: isDark ? Colors.white70 : Colors.grey,
+                        color: isDark
+                            ? Colors.white70
+                            : Colors.grey,
                       ),
                     ),
                   ],
@@ -155,41 +171,41 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               // =========================
               // ACCOUNT
               // =========================
-              _buildDrawerSectionTitle('Account'),
+              _buildDrawerSectionTitle(t('account')),
 
               _buildDrawerItem(
                 icon: Icons.person_outline,
-                title: 'Account',
+                title: t('account'),
                 targetScreen: const AccountScreen(),
               ),
 
               _buildDrawerItem(
                 icon: Icons.chat_outlined,
-                title: 'Chat',
+                title: t('chat'),
                 targetScreen: const ChatScreen(),
               ),
 
               _buildDrawerItem(
                 icon: Icons.message_outlined,
-                title: 'Messages',
+                title: t('messages'),
                 targetScreen: const MessagesScreen(),
               ),
 
               _buildDrawerItem(
                 icon: Icons.notifications_outlined,
-                title: 'Notifications',
+                title: t('notifications'),
                 targetScreen: const NotificationsScreen(),
               ),
 
               _buildDrawerItem(
                 icon: Icons.search,
-                title: 'Search',
+                title: t('search'),
                 targetScreen: const SearchScreen(),
               ),
 
               _buildDrawerItem(
                 icon: Icons.settings_outlined,
-                title: 'Settings',
+                title: t('settings'),
                 targetScreen: const SettingsScreen(),
               ),
 
@@ -198,11 +214,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               // =========================
               // WORKOUT
               // =========================
-              _buildDrawerSectionTitle('Workout'),
+              _buildDrawerSectionTitle(t('workouts')),
 
               _buildDrawerItem(
                 icon: Icons.fitness_center,
-                title: 'Library',
+                title: t('library'),
                 targetScreen: const LibraryScreen(),
               ),
 
@@ -220,13 +236,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
               _buildDrawerItem(
                 icon: Icons.shuffle,
-                title: 'Random Workout',
+                title: t('random'),
                 targetScreen: const RandomScreen(),
               ),
 
               _buildDrawerItem(
                 icon: Icons.sports_score,
-                title: 'Duels',
+                title: t('duels'),
                 targetScreen: const DuelsScreen(),
               ),
 
@@ -238,7 +254,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
               _buildDrawerItem(
                 icon: Icons.live_tv,
-                title: 'Live Session',
+                title: t('live_session'),
                 targetScreen: const LiveSessionScreen(),
               ),
 
@@ -251,7 +267,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
               _buildDrawerItem(
                 icon: Icons.people_outline,
-                title: 'Close Friends',
+                title: t('close_friends'),
                 targetScreen: const CloseFriendsScreen(),
               ),
 
@@ -282,7 +298,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
               _buildDrawerItem(
                 icon: Icons.emoji_events_outlined,
-                title: 'Rewards',
+                title: t('reward'),
                 targetScreen: const RewardScreen(),
               ),
 
@@ -294,7 +310,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
               _buildDrawerItem(
                 icon: Icons.view_list_outlined,
-                title: 'Workouts',
+                title: t('workouts'),
                 targetScreen: const ScrollScreen(),
               ),
 
@@ -330,7 +346,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
               _buildDrawerItem(
                 icon: Icons.workspace_premium_outlined,
-                title: 'Pricing',
+                title: t('pricing'),
                 targetScreen: const PricingScreen(),
               ),
 
@@ -355,13 +371,22 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   isDark
                       ? Icons.light_mode_outlined
                       : Icons.dark_mode_outlined,
-                  color: isDark ? Colors.white : Colors.black87,
+                  color: isDark
+                      ? Colors.white
+                      : Colors.black87,
                 ),
                 title: Text(
-                  isDark ? 'Light Mode' : 'Dark Mode',
+                  isDark
+                      ? 'Light Mode'
+                      : t('dark_mode'),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 trailing: Switch(
                   value: isDark,
+                  activeThumbColor: Colors.black,
+                  activeTrackColor: Colors.white,
+                  inactiveThumbColor: Colors.grey,
                   onChanged: (_) {
                     toggleDarkMode();
                   },
@@ -393,29 +418,34 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: isDark ? Colors.white : Colors.black,
+        selectedItemColor:
+            isDark ? Colors.white : Colors.black,
         unselectedItemColor:
             isDark ? Colors.white60 : Colors.grey,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: const Icon(Icons.home),
+            label: t('home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.directions_walk_outlined),
-            activeIcon: Icon(Icons.directions_walk),
-            label: 'Activity',
+            icon: const Icon(
+              Icons.directions_walk_outlined,
+            ),
+            activeIcon: const Icon(
+              Icons.directions_walk,
+            ),
+            label: t('activity'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.flag_outlined),
-            activeIcon: Icon(Icons.flag),
-            label: 'Journey',
+            icon: const Icon(Icons.flag_outlined),
+            activeIcon: const Icon(Icons.flag),
+            label: t('journey'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
-            activeIcon: Icon(Icons.map),
-            label: 'Map',
+            icon: const Icon(Icons.map_outlined),
+            activeIcon: const Icon(Icons.map),
+            label: t('map'),
           ),
         ],
       ),
@@ -435,6 +465,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
       child: Text(
         title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.bold,
@@ -452,14 +484,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     required String title,
     required Widget targetScreen,
   }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark =
+        Theme.of(context).brightness == Brightness.dark;
 
     return ListTile(
       leading: Icon(
         icon,
-        color: isDark ? Colors.white : Colors.black87,
+        color: isDark
+            ? Colors.white
+            : Colors.black87,
       ),
-      title: Text(title),
+      title: Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       dense: true,
       onTap: () {
         openScreen(targetScreen);

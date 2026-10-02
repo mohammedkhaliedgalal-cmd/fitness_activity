@@ -7,10 +7,11 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'Details',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -20,7 +21,6 @@ class DetailsScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,28 +29,36 @@ class DetailsScreen extends StatelessWidget {
 
             // Details Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Details.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE0E0E0),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.fitness_center,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    'assets/images/Details.jpg',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.fitness_center,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -62,6 +70,8 @@ class DetailsScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Workout Details',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -90,9 +100,7 @@ class DetailsScreen extends StatelessWidget {
                           '45 min',
                         ),
                       ),
-
                       const SizedBox(width: 12),
-
                       Expanded(
                         child: _infoCard(
                           Icons.local_fire_department_outlined,
@@ -114,9 +122,7 @@ class DetailsScreen extends StatelessWidget {
                           '8',
                         ),
                       ),
-
                       const SizedBox(width: 12),
-
                       Expanded(
                         child: _infoCard(
                           Icons.bar_chart,
@@ -144,6 +150,8 @@ class DetailsScreen extends StatelessWidget {
                       ),
                       child: const Text(
                         'START WORKOUT',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -168,7 +176,13 @@ class DetailsScreen extends StatelessWidget {
     String value,
   ) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      constraints: const BoxConstraints(
+        minHeight: 125,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 18,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -181,6 +195,7 @@ class DetailsScreen extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
@@ -192,6 +207,9 @@ class DetailsScreen extends StatelessWidget {
 
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 13,
@@ -200,11 +218,15 @@ class DetailsScreen extends StatelessWidget {
 
           const SizedBox(height: 5),
 
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

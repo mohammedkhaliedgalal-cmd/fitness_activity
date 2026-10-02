@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'comments_screen.dart';
 
 class PostScreen extends StatefulWidget {
@@ -47,7 +48,9 @@ class _PostScreenState extends State<PostScreen> {
       ..showSnackBar(
         SnackBar(
           content: Text(
-            isSaved ? '$title saved' : '$title removed from saved',
+            isSaved
+                ? '$title saved'
+                : '$title removed from saved',
           ),
           duration: const Duration(milliseconds: 1200),
         ),
@@ -145,28 +148,31 @@ class _PostScreenState extends State<PostScreen> {
 
           // POST IMAGE
           Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                image,
-                width: 220,
-                height: 130,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 220,
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: const Icon(
-                      Icons.image_not_supported_outlined,
-                      size: 40,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
+            child: Container(
+              width: 220,
+              height: 130,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF7F8FA),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  image,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(
+                        Icons.image_not_supported_outlined,
+                        size: 40,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -191,6 +197,7 @@ class _PostScreenState extends State<PostScreen> {
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
+                    height: 1.4,
                   ),
                 ),
 
@@ -244,7 +251,8 @@ class _PostScreenState extends State<PostScreen> {
                         isSaved
                             ? Icons.bookmark
                             : Icons.bookmark_border,
-                        color: isSaved ? Colors.black : Colors.grey,
+                        color:
+                            isSaved ? Colors.black : Colors.grey,
                       ),
                     ),
                   ],

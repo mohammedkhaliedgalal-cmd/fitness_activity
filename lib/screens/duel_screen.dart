@@ -46,19 +46,28 @@ class _DuelScreenState extends State<DuelScreen> {
             ),
             title: const Text(
               'Duel Complete',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             content: const Text(
               'Congratulations! You completed the running challenge.',
+              softWrap: true,
             ),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('OK'),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           );
@@ -73,10 +82,11 @@ class _DuelScreenState extends State<DuelScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'Duel',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -86,7 +96,6 @@ class _DuelScreenState extends State<DuelScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -95,28 +104,42 @@ class _DuelScreenState extends State<DuelScreen> {
 
             // Duel Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Duel.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE0E0E0),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.sports_mma_outlined,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Duel.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE0E0E0),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Icon(
+                          Icons.sports_mma_outlined,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -126,6 +149,8 @@ class _DuelScreenState extends State<DuelScreen> {
             const Text(
               'Fitness Duel',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -137,6 +162,7 @@ class _DuelScreenState extends State<DuelScreen> {
             const Text(
               'Compete with another athlete and see who reaches the goal first.',
               textAlign: TextAlign.center,
+              softWrap: true,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -160,6 +186,7 @@ class _DuelScreenState extends State<DuelScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
                     'VS',
+                    maxLines: 1,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -197,6 +224,9 @@ class _DuelScreenState extends State<DuelScreen> {
                 children: [
                   const Text(
                     'Running Challenge',
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -207,6 +237,8 @@ class _DuelScreenState extends State<DuelScreen> {
 
                   const Text(
                     'Target distance',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
@@ -215,11 +247,15 @@ class _DuelScreenState extends State<DuelScreen> {
 
                   const SizedBox(height: 5),
 
-                  Text(
-                    '$currentDistance / 10 km',
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      '$currentDistance / 10 km',
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
 
@@ -229,6 +265,10 @@ class _DuelScreenState extends State<DuelScreen> {
                     value: progress,
                     minHeight: 8,
                     borderRadius: BorderRadius.circular(10),
+                    backgroundColor: const Color(0xFFE5E5E5),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -251,6 +291,8 @@ class _DuelScreenState extends State<DuelScreen> {
                 ),
                 child: Text(
                   challengeStarted ? 'PAUSE DUEL' : 'START DUEL',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -269,6 +311,8 @@ class _DuelScreenState extends State<DuelScreen> {
                 icon: const Icon(Icons.add),
                 label: const Text(
                   'ADD DISTANCE',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -333,6 +377,8 @@ class _DuelScreenState extends State<DuelScreen> {
 
           Text(
             name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -341,11 +387,15 @@ class _DuelScreenState extends State<DuelScreen> {
 
           const SizedBox(height: 5),
 
-          Text(
-            score,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 13,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              score,
+              maxLines: 1,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 13,
+              ),
             ),
           ),
         ],

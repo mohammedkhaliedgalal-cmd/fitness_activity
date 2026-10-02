@@ -30,6 +30,8 @@ class _PricingScreenState extends State<PricingScreen> {
       appBar: AppBar(
         title: const Text(
           'Pricing',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -45,29 +47,40 @@ class _PricingScreenState extends State<PricingScreen> {
           children: [
             const SizedBox(height: 10),
 
+            // Pricing Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Pricing.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.image_not_supported_outlined,
-                        size: 45,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Pricing.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 45,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -77,6 +90,8 @@ class _PricingScreenState extends State<PricingScreen> {
             const Text(
               'Choose Your Plan',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -88,6 +103,8 @@ class _PricingScreenState extends State<PricingScreen> {
             const Text(
               'Select the plan that works best for your fitness journey.',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -159,12 +176,20 @@ class _PricingScreenState extends State<PricingScreen> {
 
             const SizedBox(height: 20),
 
+            // Selected Plan
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
@@ -179,6 +204,8 @@ class _PricingScreenState extends State<PricingScreen> {
                       children: [
                         const Text(
                           'Selected Plan',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 12,
@@ -187,6 +214,8 @@ class _PricingScreenState extends State<PricingScreen> {
                         const SizedBox(height: 4),
                         Text(
                           selectedPlan,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -256,6 +285,8 @@ class _PricingScreenState extends State<PricingScreen> {
               ),
               child: const Text(
                 'POPULAR',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 11,
@@ -271,6 +302,8 @@ class _PricingScreenState extends State<PricingScreen> {
               Expanded(
                 child: Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.bold,
@@ -290,21 +323,31 @@ class _PricingScreenState extends State<PricingScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    price,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  period,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    period,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
@@ -317,6 +360,7 @@ class _PricingScreenState extends State<PricingScreen> {
             (feature) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.check_circle_outline,
@@ -327,8 +371,11 @@ class _PricingScreenState extends State<PricingScreen> {
                   Expanded(
                     child: Text(
                       feature,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 13,
+                        height: 1.3,
                       ),
                     ),
                   ),
@@ -345,8 +392,18 @@ class _PricingScreenState extends State<PricingScreen> {
             child: highlighted
                 ? ElevatedButton(
                     onPressed: onPressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
                     child: Text(
                       buttonText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -354,8 +411,19 @@ class _PricingScreenState extends State<PricingScreen> {
                   )
                 : OutlinedButton(
                     onPressed: onPressed,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      side: const BorderSide(
+                        color: Colors.black,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
                     child: Text(
                       buttonText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),

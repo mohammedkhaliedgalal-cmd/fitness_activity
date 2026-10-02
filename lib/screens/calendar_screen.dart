@@ -120,7 +120,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'Calendar',
@@ -133,24 +132,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
-
         child: Column(
           children: [
             const SizedBox(height: 5),
 
-            // Calendar Image
+            // CALENDAR IMAGE
             Center(
               child: Container(
-                width: 120,
+                width: 180,
                 height: 120,
-
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.05),
@@ -159,16 +155,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     ),
                   ],
                 ),
-
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-
+                  borderRadius: BorderRadius.circular(14),
                   child: Image.asset(
                     'assets/images/Calendar.jpg',
-                    width: 120,
-                    height: 120,
-                    fit: BoxFit.cover,
-
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
                         child: Icon(
@@ -188,7 +181,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             const Text(
               'Your Calendar',
               textAlign: TextAlign.center,
-
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -200,7 +192,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             const Text(
               'Keep track of your workouts and daily activities.',
               textAlign: TextAlign.center,
-
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -209,15 +200,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
             const SizedBox(height: 20),
 
-            // Date Selector Card
+            // DATE SELECTOR CARD
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
-
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.03),
@@ -226,60 +215,62 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ],
               ),
-
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
                         onPressed: previousDay,
-
+                        tooltip: 'Previous day',
                         icon: const Icon(
                           Icons.arrow_back_ios,
                           size: 18,
                         ),
                       ),
 
-                      Column(
-                        children: [
-                          Text(
-                            getMonthName(selectedDate),
-
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              getMonthName(selectedDate),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
 
-                          const SizedBox(height: 2),
+                            const SizedBox(height: 2),
 
-                          Text(
-                            '${selectedDate.day}',
-
-                            style: const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              '${selectedDate.day}',
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
 
-                          const SizedBox(height: 2),
+                            const SizedBox(height: 2),
 
-                          Text(
-                            getArabicDay(selectedDate),
-
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                            Text(
+                              getArabicDay(selectedDate),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
 
                       IconButton(
                         onPressed: nextDay,
-
+                        tooltip: 'Next day',
                         icon: const Icon(
                           Icons.arrow_forward_ios,
                           size: 18,
@@ -293,19 +284,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   SizedBox(
                     width: double.infinity,
                     height: 44,
-
                     child: OutlinedButton(
                       onPressed: selectToday,
-
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-
                       child: const Text(
                         'GO TO TODAY',
-
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -318,15 +305,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
             const SizedBox(height: 16),
 
-            // Activity Card
+            // ACTIVITY CARD
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
-
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.03),
@@ -335,7 +320,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ],
               ),
-
               child: Column(
                 children: [
                   const Icon(
@@ -348,7 +332,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                   Text(
                     isToday ? 'Today' : getDayName(selectedDate),
-
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -360,10 +345,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   Text(
                     activity,
                     textAlign: TextAlign.center,
-
                     style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 14,
+                      height: 1.35,
                     ),
                   ),
                 ],
@@ -372,27 +357,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
             const SizedBox(height: 16),
 
-            // Choose Date Button
+            // CHOOSE DATE BUTTON
             SizedBox(
               width: double.infinity,
               height: 50,
-
               child: ElevatedButton.icon(
                 onPressed: chooseDate,
-
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-
                 icon: const Icon(
                   Icons.calendar_month,
                 ),
-
                 label: const Text(
                   'CHOOSE DATE',
-
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

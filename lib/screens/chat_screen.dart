@@ -20,6 +20,8 @@ class ChatScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Chat',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -36,30 +38,40 @@ class ChatScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
 
-            // Chat Image
+            // Chat image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Chat.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.chat_outlined,
-                        size: 55,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Chat.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.chat_outlined,
+                          size: 55,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -68,6 +80,9 @@ class ChatScreen extends StatelessWidget {
 
             const Text(
               'Chat',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -79,6 +94,8 @@ class ChatScreen extends StatelessWidget {
             const Text(
               'Connect with your friends and stay motivated together.',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -88,7 +105,6 @@ class ChatScreen extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            // Fitness Team
             _chatItem(
               context: context,
               name: 'Fitness Team',
@@ -99,7 +115,6 @@ class ChatScreen extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // Workout Partner
             _chatItem(
               context: context,
               name: 'Workout Partner',
@@ -110,7 +125,6 @@ class ChatScreen extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // Fitness Coach
             _chatItem(
               context: context,
               name: 'Fitness Coach',
@@ -121,7 +135,6 @@ class ChatScreen extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            // New Chat
             SizedBox(
               width: double.infinity,
               height: 55,
@@ -129,9 +142,14 @@ class ChatScreen extends StatelessWidget {
                 onPressed: () {
                   _openMessages(context);
                 },
-                icon: const Icon(Icons.chat_bubble_outline),
+                icon: const Icon(
+                  Icons.chat_bubble_outline,
+                  size: 21,
+                ),
                 label: const Text(
                   'NEW CHAT',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -140,8 +158,9 @@ class ChatScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                 ),
               ),
@@ -161,80 +180,92 @@ class ChatScreen extends StatelessWidget {
     required String time,
     required IconData icon,
   }) {
-    return InkWell(
-      onTap: () {
-        _openMessages(context);
-      },
+    return Material(
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(18),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F1F3),
-                borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: () {
+          _openMessages(context);
+        },
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
               ),
-              child: Icon(
-                icon,
-                size: 26,
-                color: Colors.black,
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F1F3),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  icon,
+                  size: 26,
+                  color: Colors.black,
+                ),
               ),
-            ),
 
-            const SizedBox(width: 13),
+              const SizedBox(width: 13),
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 5),
+                    const SizedBox(height: 5),
 
-                  Text(
-                    message,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
+                    Text(
+                      message,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        height: 1.3,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              Flexible(
+                child: Text(
+                  time,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 11,
                   ),
-                ],
+                ),
               ),
-            ),
-
-            const SizedBox(width: 8),
-
-            Text(
-              time,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 11,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

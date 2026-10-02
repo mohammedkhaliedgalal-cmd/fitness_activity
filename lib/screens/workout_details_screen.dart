@@ -13,7 +13,11 @@ class WorkoutDetailsScreen extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(name),
+          title: Text(
+            name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           content: Text(
             'Exercise: $name\n'
             'Duration: $duration\n\n'
@@ -28,7 +32,13 @@ class WorkoutDetailsScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('CLOSE'),
+              child: const Text(
+                'CLOSE',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         );
@@ -41,9 +51,15 @@ class WorkoutDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
 
+      // ==========================================
+      // APP BAR
+      // ==========================================
+
       appBar: AppBar(
         title: const Text(
           'Workout Details',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -54,39 +70,65 @@ class WorkoutDetailsScreen extends StatelessWidget {
         elevation: 0,
       ),
 
+      // ==========================================
+      // BODY
+      // ==========================================
+
       body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 15),
+            // ==========================================
+            // WORKOUT IMAGE
+            // ==========================================
 
-            // Workout image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  'assets/images/Workout Details.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: const Icon(
-                        Icons.fitness_center,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Workout Details.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.fitness_center,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
+
+            // ==========================================
+            // CONTENT
+            // ==========================================
 
             Padding(
               padding: const EdgeInsets.all(20),
@@ -95,6 +137,8 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Full Body Workout',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -105,6 +149,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
 
                   const Text(
                     'A complete workout designed to help you stay active and reach your fitness goals.',
+                    softWrap: true,
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey,
@@ -114,7 +159,10 @@ class WorkoutDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 25),
 
-                  // Workout information
+                  // ==========================================
+                  // WORKOUT INFORMATION
+                  // ==========================================
+
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
@@ -131,65 +179,23 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     ),
                     child: const Column(
                       children: [
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Duration',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              '45 Minutes',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        _InfoRow(
+                          label: 'Duration',
+                          value: '45 Minutes',
                         ),
 
                         SizedBox(height: 18),
 
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Calories',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              '320 kcal',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        _InfoRow(
+                          label: 'Calories',
+                          value: '320 kcal',
                         ),
 
                         SizedBox(height: 18),
 
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Exercises',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              '8 Exercises',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        _InfoRow(
+                          label: 'Exercises',
+                          value: '8 Exercises',
                         ),
                       ],
                     ),
@@ -199,6 +205,8 @@ class WorkoutDetailsScreen extends StatelessWidget {
 
                   const Text(
                     'Exercises',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 21,
                       fontWeight: FontWeight.bold,
@@ -239,7 +247,10 @@ class WorkoutDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 25),
 
-                  // Start workout button
+                  // ==========================================
+                  // START WORKOUT BUTTON
+                  // ==========================================
+
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -253,8 +264,18 @@ class WorkoutDetailsScreen extends StatelessWidget {
                           ),
                         );
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
                       child: const Text(
                         'START WORKOUT',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -263,7 +284,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
@@ -273,70 +294,145 @@ class WorkoutDetailsScreen extends StatelessWidget {
     );
   }
 
+  // ==========================================
+  // EXERCISE ITEM
+  // ==========================================
+
   Widget _exerciseItem(
     BuildContext context,
     String name,
     String duration,
   ) {
-    return InkWell(
-      onTap: () {
-        openExerciseDetails(
-          context,
-          name,
-          duration,
-        );
-      },
-      borderRadius: BorderRadius.circular(15),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            const Icon(
-              Icons.fitness_center,
-              size: 25,
-            ),
-
-            const SizedBox(width: 15),
-
-            Expanded(
-              child: Text(
-                name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          openExerciseDetails(
+            context,
+            name,
+            duration,
+          );
+        },
+        borderRadius: BorderRadius.circular(15),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              // ICON
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F1F3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.fitness_center,
+                  size: 22,
+                  color: Colors.black,
                 ),
               ),
-            ),
 
-            Text(
-              duration,
-              style: const TextStyle(
+              const SizedBox(width: 12),
+
+              // NAME
+              Expanded(
+                child: Text(
+                  name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              // DURATION
+              Flexible(
+                child: Text(
+                  duration,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
                 color: Colors.grey,
               ),
-            ),
-
-            const SizedBox(width: 8),
-
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 14,
-              color: Colors.grey,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+// ==========================================
+// INFO ROW
+// ==========================================
+
+class _InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _InfoRow({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.grey,
+            ),
+          ),
+        ),
+
+        const SizedBox(width: 15),
+
+        Flexible(
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

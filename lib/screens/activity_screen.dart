@@ -33,8 +33,9 @@ class ActivityScreen extends StatelessWidget {
             // Activity Image
             Center(
               child: Container(
-                width: 120,
+                width: 180,
                 height: 120,
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -47,12 +48,12 @@ class ActivityScreen extends StatelessWidget {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(14),
                   child: Image.asset(
                     'assets/images/Activity.jpg',
-                    width: 120,
-                    height: 120,
-                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
                         child: Icon(

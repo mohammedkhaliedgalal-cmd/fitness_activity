@@ -44,10 +44,13 @@ class ScrollScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           'Workouts',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -81,28 +84,42 @@ class _HeaderSection extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              'assets/images/Scroll.jpg',
-              width: 220,
-              height: 130,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 220,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Icon(
-                    Icons.fitness_center,
-                    size: 40,
-                    color: Colors.grey,
-                  ),
-                );
-              },
+          child: Container(
+            width: 220,
+            height: 130,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                'assets/images/Scroll.jpg',
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0F2F5),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.fitness_center,
+                      size: 40,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -111,6 +128,8 @@ class _HeaderSection extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             'Recommended Workouts',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -133,13 +152,22 @@ class _WorkoutTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 52,
@@ -160,6 +188,8 @@ class _WorkoutTile extends StatelessWidget {
               children: [
                 Text(
                   workout.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -168,6 +198,8 @@ class _WorkoutTile extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   workout.subtitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 13,
@@ -176,13 +208,18 @@ class _WorkoutTile extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                workout.duration,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  workout.duration,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
               const SizedBox(height: 6),

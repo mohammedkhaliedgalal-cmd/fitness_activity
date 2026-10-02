@@ -80,6 +80,8 @@ class MyWorkoutsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'My Workouts',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -99,28 +101,44 @@ class MyWorkoutsScreen extends StatelessWidget {
             // ==========================================
 
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/My workouts.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.fitness_center,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/My workouts.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.fitness_center,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -129,6 +147,8 @@ class MyWorkoutsScreen extends StatelessWidget {
 
             const Text(
               'My Workouts',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -139,9 +159,11 @@ class MyWorkoutsScreen extends StatelessWidget {
 
             const Text(
               'Manage your workouts and keep track of your progress.',
+              softWrap: true,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 15,
+                height: 1.4,
               ),
             ),
 
@@ -192,6 +214,8 @@ class MyWorkoutsScreen extends StatelessWidget {
                 ),
                 child: const Text(
                   'BACK',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -263,6 +287,8 @@ class MyWorkoutsScreen extends StatelessWidget {
                   children: [
                     Text(
                       workout.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -271,6 +297,8 @@ class MyWorkoutsScreen extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       workout.subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 13,
@@ -279,6 +307,8 @@ class MyWorkoutsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
+              const SizedBox(width: 8),
 
               const Icon(
                 Icons.arrow_forward_ios,
@@ -307,14 +337,15 @@ class WorkoutInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isFullBody =
-        workout.title == 'Full Body Workout';
+    final bool isFullBody = workout.title == 'Full Body Workout';
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: Text(
           workout.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -340,6 +371,13 @@ class WorkoutInfoScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Icon(
                 workout.icon,
@@ -353,6 +391,8 @@ class WorkoutInfoScreen extends StatelessWidget {
             Text(
               workout.title,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -392,6 +432,7 @@ class WorkoutInfoScreen extends StatelessWidget {
                   ? 'Complete your full body workout and stay consistent with your fitness goals.'
                   : 'Stay active and keep working toward your fitness goals.',
               textAlign: TextAlign.center,
+              softWrap: true,
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 15,
@@ -420,12 +461,15 @@ class WorkoutInfoScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
                 child: const Text(
                   'START WORKOUT',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -458,6 +502,8 @@ class WorkoutInfoScreen extends StatelessWidget {
                 ),
                 child: const Text(
                   'BACK',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -465,6 +511,8 @@ class WorkoutInfoScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -496,18 +544,24 @@ class WorkoutInfoScreen extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 13,
             ),
           ),
           const SizedBox(height: 5),
-          Text(
-            value,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

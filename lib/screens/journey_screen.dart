@@ -57,13 +57,15 @@ class _JourneyScreenState extends State<JourneyScreen> {
     JourneyStepItem(
       icon: Icons.fitness_center,
       title: 'Workout',
-      description: 'Complete your workout to unlock this step.',
+      description:
+          'Complete your workout to unlock this step.',
       isCompleted: false,
     ),
     JourneyStepItem(
       icon: Icons.emoji_events_outlined,
       title: 'Achievement',
-      description: 'Keep going to unlock more achievements.',
+      description:
+          'Keep going to unlock more achievements.',
       isCompleted: false,
     ),
   ];
@@ -114,7 +116,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
           children: [
             const SizedBox(height: 20),
 
-            // Journey Image
+            // JOURNEY IMAGE
             const HeaderImage(
               imagePath: 'assets/images/Jounery.jpg',
             ),
@@ -185,28 +187,38 @@ class HeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Image.asset(
-          imagePath,
-          width: 220,
-          height: 130,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F1F3),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(
-                Icons.flag_outlined,
-                size: 50,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(14),
+          child: Image.asset(
+            imagePath,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Icon(
+                  Icons.flag_outlined,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -234,14 +246,19 @@ class HeaderTitleSection extends StatelessWidget {
       children: [
         Text(
           title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
+
         const SizedBox(height: 10),
+
         Text(
           description,
+          softWrap: true,
           style: const TextStyle(
             color: Colors.grey,
             fontSize: 15,
@@ -289,15 +306,21 @@ class ProgressBarCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Your Progress',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              const Expanded(
+                child: Text(
+                  'Your Progress',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+
+              const SizedBox(width: 10),
+
               Text(
                 '${(progress * 100).round()}%',
                 style: const TextStyle(
@@ -326,6 +349,8 @@ class ProgressBarCard extends StatelessWidget {
 
           Text(
             '$completedCount of $totalCount goals completed',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 13,
@@ -436,6 +461,8 @@ class JourneyStepCard extends StatelessWidget {
                   children: [
                     Text(
                       step.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -449,6 +476,7 @@ class JourneyStepCard extends StatelessWidget {
 
                     Text(
                       step.description,
+                      softWrap: true,
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 13,

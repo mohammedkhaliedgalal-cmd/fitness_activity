@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
-import 'chat_screen.dart';
 
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
-
-  void _openChat(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const ChatScreen(),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         title: const Text(
           'Messages',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -29,242 +21,169 @@ class MessagesScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-
-      body: SingleChildScrollView(
+      body: ListView(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-
-            // Messages Image
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Messages.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.message,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            const Text(
-              'Messages',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            const Text(
-              'Stay connected with your friends and fitness community.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-                height: 1.5,
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            // Ahmed
-            _messageItem(
-              context: context,
-              name: 'Ahmed',
-              message: 'Great workout today!',
-              time: '10:45 AM',
-              unread: true,
-            ),
-
-            const SizedBox(height: 12),
-
-            // Mohamed
-            _messageItem(
-              context: context,
-              name: 'Mohamed',
-              message: 'Are you joining the workout?',
-              time: '09:30 AM',
-              unread: true,
-            ),
-
-            const SizedBox(height: 12),
-
-            // Fitness Coach
-            _messageItem(
-              context: context,
-              name: 'Fitness Coach',
-              message: 'Don\'t forget your workout today.',
-              time: 'Yesterday',
-              unread: false,
-            ),
-
-            const SizedBox(height: 12),
-
-            // Sara
-            _messageItem(
-              context: context,
-              name: 'Sara',
-              message: 'See you tomorrow!',
-              time: 'Yesterday',
-              unread: false,
-            ),
-
-            const SizedBox(height: 25),
-
-            // New Message Button
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  _openChat(context);
-                },
-                icon: const Icon(Icons.message_outlined),
-                label: const Text(
-                  'NEW MESSAGE',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-          ],
-        ),
+        children: [
+          _messageItem(
+            context,
+            name: 'Fitness Team',
+            message: 'Keep going! You are doing great.',
+            time: '10:30 AM',
+            icon: Icons.groups_outlined,
+          ),
+          const SizedBox(height: 12),
+          _messageItem(
+            context,
+            name: 'Workout Partner',
+            message: 'Ready for today\'s workout?',
+            time: '09:45 AM',
+            icon: Icons.person_outline,
+          ),
+          const SizedBox(height: 12),
+          _messageItem(
+            context,
+            name: 'Fitness Coach',
+            message: 'Your workout plan is ready.',
+            time: 'Yesterday',
+            icon: Icons.fitness_center,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _messageItem({
-    required BuildContext context,
+  Widget _messageItem(
+    BuildContext context, {
     required String name,
     required String message,
     required String time,
-    required bool unread,
+    required IconData icon,
   }) {
-    return InkWell(
-      onTap: () {
-        _openChat(context);
-      },
+    return Material(
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(18),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            // Profile Icon
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F1F3),
-                borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: () {
+          _openConversation(
+            context,
+            name,
+          );
+        },
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
               ),
-              child: const Icon(
-                Icons.person_outline,
-                size: 26,
-                color: Colors.black,
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F1F3),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  icon,
+                  size: 27,
+                  color: Colors.black,
+                ),
               ),
-            ),
 
-            const SizedBox(width: 13),
+              const SizedBox(width: 13),
 
-            // Message Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: unread
-                          ? FontWeight.bold
-                          : FontWeight.w600,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-
-                  const SizedBox(height: 5),
-
-                  Text(
-                    message,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontWeight: unread
-                          ? FontWeight.w500
-                          : FontWeight.normal,
+                    const SizedBox(height: 5),
+                    Text(
+                      message,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        height: 1.3,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
-            const SizedBox(width: 8),
+              const SizedBox(width: 8),
 
-            // Time & Unread Indicator
-            Column(
-              children: [
-                Text(
+              SizedBox(
+                width: 65,
+                child: Text(
                   time,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 11,
                   ),
                 ),
-
-                if (unread) ...[
-                  const SizedBox(height: 7),
-                  Container(
-                    width: 9,
-                    height: 9,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  void _openConversation(
+    BuildContext context,
+    String name,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          content: const Text(
+            'Your conversation will appear here.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

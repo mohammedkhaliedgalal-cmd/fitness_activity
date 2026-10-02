@@ -50,6 +50,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     seconds = exercises[0]['duration'] as int;
   }
 
+  // ==========================================
+  // START TIMER
+  // ==========================================
+
   void startTimer() {
     if (isRunning) return;
 
@@ -78,6 +82,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     );
   }
 
+  // ==========================================
+  // PAUSE TIMER
+  // ==========================================
+
   void pauseTimer() {
     _timer?.cancel();
 
@@ -87,6 +95,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       isRunning = false;
     });
   }
+
+  // ==========================================
+  // NEXT EXERCISE
+  // ==========================================
 
   void nextExercise() {
     _timer?.cancel();
@@ -113,6 +125,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     }
   }
 
+  // ==========================================
+  // FINISH WORKOUT
+  // ==========================================
+
   void finishWorkout() {
     _timer?.cancel();
 
@@ -125,9 +141,14 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       barrierDismissible: false,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Workout Completed 🎉'),
+          title: const Text(
+            'Workout Completed 🎉',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           content: const Text(
             'Great job! You completed your workout.',
+            softWrap: true,
           ),
           actions: [
             TextButton(
@@ -141,6 +162,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
               child: const Text(
                 'DONE',
                 style: TextStyle(
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -150,6 +172,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
       },
     );
   }
+
+  // ==========================================
+  // RESET WORKOUT
+  // ==========================================
 
   void resetWorkout() {
     _timer?.cancel();
@@ -170,6 +196,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     );
   }
 
+  // ==========================================
+  // FORMAT TIME
+  // ==========================================
+
   String formatTime() {
     final minutes = seconds ~/ 60;
     final remainingSeconds = seconds % 60;
@@ -184,6 +214,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     super.dispose();
   }
 
+  // ==========================================
+  // BUILD
+  // ==========================================
+
   @override
   Widget build(BuildContext context) {
     final exercise = exercises[currentExercise];
@@ -194,9 +228,15 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
 
+      // ==========================================
+      // APP BAR
+      // ==========================================
+
       appBar: AppBar(
         title: const Text(
           'Workout Session',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -207,14 +247,24 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
         elevation: 0,
       ),
 
+      // ==========================================
+      // BODY
+      // ==========================================
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             const SizedBox(height: 10),
 
+            // ==========================================
+            // EXERCISE PROGRESS
+            // ==========================================
+
             Text(
               'Exercise ${currentExercise + 1} of ${exercises.length}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 15,
@@ -228,44 +278,73 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 8,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Exercise image
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: Image.asset(
-                  exercise['image'] as String,
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: const Icon(
-                        Icons.fitness_center,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+                backgroundColor: Colors.grey.shade300,
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  Colors.black,
                 ),
               ),
             ),
 
             const SizedBox(height: 20),
 
+            // ==========================================
+            // EXERCISE IMAGE
+            // ==========================================
+
+            Center(
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    exercise['image'] as String,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.fitness_center,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // ==========================================
+            // EXERCISE NAME
+            // ==========================================
+
             Text(
               exercise['name'] as String,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 27,
                 fontWeight: FontWeight.bold,
@@ -274,7 +353,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
 
             const SizedBox(height: 20),
 
-            // Timer
+            // ==========================================
+            // TIMER
+            // ==========================================
+
             Container(
               width: 170,
               height: 170,
@@ -290,11 +372,14 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
                 ],
               ),
               child: Center(
-                child: Text(
-                  formatTime(),
-                  style: const TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    formatTime(),
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -302,10 +387,17 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
 
             const SizedBox(height: 20),
 
+            // ==========================================
+            // STATUS
+            // ==========================================
+
             Text(
               isRunning
                   ? 'Exercise in progress...'
                   : 'Ready to start?',
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 16,
@@ -314,7 +406,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
 
             const SizedBox(height: 25),
 
-            // Start / Pause
+            // ==========================================
+            // START / PAUSE BUTTON
+            // ==========================================
+
             SizedBox(
               width: double.infinity,
               height: 55,
@@ -322,6 +417,14 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
                 onPressed: isRunning
                     ? pauseTimer
                     : startTimer,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 icon: Icon(
                   isRunning
                       ? Icons.pause
@@ -331,6 +434,8 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
                   isRunning
                       ? 'PAUSE'
                       : 'START EXERCISE',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -341,23 +446,35 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
 
             const SizedBox(height: 12),
 
-            // Next / Finish
+            // ==========================================
+            // NEXT / FINISH BUTTON
+            // ==========================================
+
             SizedBox(
               width: double.infinity,
               height: 50,
               child: OutlinedButton.icon(
                 onPressed: nextExercise,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  side: const BorderSide(
+                    color: Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 icon: Icon(
-                  currentExercise ==
-                          exercises.length - 1
+                  currentExercise == exercises.length - 1
                       ? Icons.check
                       : Icons.skip_next,
                 ),
                 label: Text(
-                  currentExercise ==
-                          exercises.length - 1
+                  currentExercise == exercises.length - 1
                       ? 'FINISH WORKOUT'
                       : 'NEXT EXERCISE',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -367,15 +484,29 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
 
             const SizedBox(height: 12),
 
-            // Reset
+            // ==========================================
+            // RESET BUTTON
+            // ==========================================
+
             SizedBox(
               width: double.infinity,
               height: 50,
               child: OutlinedButton.icon(
                 onPressed: resetWorkout,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  side: const BorderSide(
+                    color: Colors.black,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 icon: const Icon(Icons.refresh),
                 label: const Text(
                   'RESET',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

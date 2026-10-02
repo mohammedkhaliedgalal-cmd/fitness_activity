@@ -50,6 +50,8 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
         centerTitle: true,
         title: const Text(
           'Map Style',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -60,30 +62,40 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            const SizedBox(height: 5),
+
             // Map Style Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  'assets/images/Map style.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(
-                        Icons.map,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    'assets/images/Map style.jpg',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.map,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -94,6 +106,8 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Choose Map Style',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -122,38 +136,48 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
                 itemBuilder: (context, index) {
                   final isSelected = selectedStyle == index;
 
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedStyle = index;
-                      });
-                    },
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.transparent,
-                          width: 2,
-                        ),
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: isSelected
+                            ? Colors.black
+                            : Colors.transparent,
+                        width: 2,
                       ),
-                      child: ListTile(
-                        leading: Icon(
-                          icons[index],
-                          size: 28,
-                        ),
-                        title: Text(
-                          styles[index],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedStyle = index;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(14),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 2,
                           ),
-                        ),
-                        trailing: Radio<int>(
-                          value: index,
+                          leading: Icon(
+                            icons[index],
+                            size: 28,
+                            color: Colors.black,
+                          ),
+                          title: Text(
+                            styles[index],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          trailing: Radio<int>(
+                            value: index,
+                          ),
                         ),
                       ),
                     ),
@@ -177,6 +201,7 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
                   Icon(
                     icons[appliedStyle],
                     size: 25,
+                    color: Colors.black,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -185,6 +210,8 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
                       children: [
                         const Text(
                           'Current Map Style',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 12,
@@ -193,6 +220,8 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
                         const SizedBox(height: 4),
                         Text(
                           styles[appliedStyle],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -213,14 +242,26 @@ class _MapStyleScreenState extends State<MapStyleScreen> {
               height: 52,
               child: ElevatedButton(
                 onPressed: applyStyle,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
                 child: const Text(
                   'APPLY STYLE',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
+
+            const SizedBox(height: 10),
           ],
         ),
       ),

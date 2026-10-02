@@ -113,6 +113,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
       appBar: AppBar(
         title: Text(
           widget.postTitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -166,7 +168,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
                             children: [
                               CircleAvatar(
                                 radius: 20,
-                                backgroundColor: const Color(0xFFE9EDF2),
+                                backgroundColor:
+                                    const Color(0xFFE9EDF2),
                                 child: Text(
                                   comment.userName.isNotEmpty
                                       ? comment.userName[0].toUpperCase()
@@ -190,8 +193,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                         Expanded(
                                           child: Text(
                                             comment.userName,
+                                            maxLines: 2,
+                                            overflow:
+                                                TextOverflow.ellipsis,
                                             style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight:
+                                                  FontWeight.bold,
                                               fontSize: 14,
                                             ),
                                           ),
@@ -199,6 +206,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                         const SizedBox(width: 8),
                                         Text(
                                           comment.timeAgo,
+                                          maxLines: 1,
                                           style: const TextStyle(
                                             color: Colors.grey,
                                             fontSize: 12,
@@ -209,8 +217,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                     const SizedBox(height: 4),
                                     Text(
                                       comment.text,
+                                      softWrap: true,
                                       style: const TextStyle(
                                         fontSize: 15,
+                                        height: 1.35,
                                       ),
                                     ),
                                   ],
@@ -223,16 +233,26 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     },
                   ),
           ),
+
+          // COMMENT INPUT
           SafeArea(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+              padding: const EdgeInsets.fromLTRB(
+                12,
+                8,
+                12,
+                12,
+              ),
               color: Colors.white,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       textInputAction: TextInputAction.send,
+                      minLines: 1,
+                      maxLines: 4,
                       onSubmitted: (_) => _addComment(),
                       decoration: InputDecoration(
                         hintText: 'Write a comment...',
@@ -242,7 +262,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
+                        contentPadding:
+                            const EdgeInsets.symmetric(
                           horizontal: 18,
                           vertical: 12,
                         ),
@@ -250,15 +271,24 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.black,
-                    child: IconButton(
-                      onPressed: _addComment,
-                      icon: const Icon(
-                        Icons.send,
-                        color: Colors.white,
-                        size: 20,
+
+                  // SEND BUTTON
+                  Material(
+                    color: Colors.black,
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      onTap: _addComment,
+                      customBorder: const CircleBorder(),
+                      child: const SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: Center(
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
                       ),
                     ),
                   ),

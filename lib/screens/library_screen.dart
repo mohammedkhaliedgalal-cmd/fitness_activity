@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'library_play_screen.dart';
 import 'my_workouts_screen.dart';
 import 'playing_screen.dart';
@@ -22,6 +23,8 @@ class LibraryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Library',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -36,51 +39,74 @@ class LibraryScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 10),
+
+            // Library image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Library-All.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.library_books_outlined,
-                        size: 55,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Library-All.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.library_books_outlined,
+                          size: 55,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
+
             const SizedBox(height: 25),
+
             const Text(
               'Library',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const SizedBox(height: 8),
+
             const Text(
               'Explore your saved workouts and fitness content.',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
                 height: 1.5,
               ),
             ),
+
             const SizedBox(height: 25),
+
             _libraryItem(
               context: context,
               icon: Icons.fitness_center,
@@ -93,7 +119,9 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
+
             const SizedBox(height: 12),
+
             _libraryItem(
               context: context,
               icon: Icons.play_circle_outline,
@@ -106,7 +134,9 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
+
             const SizedBox(height: 12),
+
             _libraryItem(
               context: context,
               icon: Icons.favorite_outline,
@@ -119,7 +149,9 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
+
             const SizedBox(height: 12),
+
             _libraryItem(
               context: context,
               icon: Icons.bookmark_outline,
@@ -132,7 +164,9 @@ class LibraryScreen extends StatelessWidget {
                 );
               },
             ),
+
             const SizedBox(height: 25),
+
             SizedBox(
               width: double.infinity,
               height: 52,
@@ -143,11 +177,22 @@ class LibraryScreen extends StatelessWidget {
                     const LibraryPlayScreen(),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 icon: const Icon(
                   Icons.library_books_outlined,
+                  size: 21,
                 ),
                 label: const Text(
                   'EXPLORE LIBRARY',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -155,6 +200,7 @@ class LibraryScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 10),
           ],
         ),
@@ -169,67 +215,83 @@ class LibraryScreen extends StatelessWidget {
     required String subtitle,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
+    return Material(
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(18),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F1F3),
-                borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
               ),
-              child: Icon(
-                icon,
-                size: 25,
-                color: Colors.black,
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F1F3),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(
+                  icon,
+                  size: 25,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            const SizedBox(width: 13),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+
+              const SizedBox(width: 13),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
+
+                    const SizedBox(height: 4),
+
+                    Text(
+                      subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                        height: 1.3,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 15,
-              color: Colors.grey,
-            ),
-          ],
+
+              const SizedBox(width: 10),
+
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 15,
+                color: Colors.grey,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../language_controller.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -10,7 +11,7 @@ class LanguageScreen extends StatefulWidget {
 class _LanguageScreenState extends State<LanguageScreen> {
   String selectedLanguage = 'English';
 
-  final List<String> languages = [
+  final List<String> languages = const [
     'English',
     'Arabic',
     'French',
@@ -23,6 +24,23 @@ class _LanguageScreenState extends State<LanguageScreen> {
     'Japanese',
   ];
 
+  void _saveLanguage() {
+    LanguageController.changeLanguage(selectedLanguage);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Language selected: $selectedLanguage',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +48,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
       appBar: AppBar(
         title: const Text(
           'Language',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -48,6 +68,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
             const Text(
               'Choose Language',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -59,6 +81,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
             const Text(
               'Select your preferred language.',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -72,6 +96,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Material(
                   color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(18),
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -114,6 +139,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           Expanded(
                             child: Text(
                               language,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -121,18 +148,17 @@ class _LanguageScreenState extends State<LanguageScreen> {
                             ),
                           ),
 
-                          if (selectedLanguage == language)
-                            const Icon(
-                              Icons.check_circle,
-                              color: Colors.black,
-                              size: 24,
-                            )
-                          else
-                            const Icon(
-                              Icons.radio_button_unchecked,
-                              color: Colors.grey,
-                              size: 24,
-                            ),
+                          const SizedBox(width: 10),
+
+                          Icon(
+                            selectedLanguage == language
+                                ? Icons.check_circle
+                                : Icons.radio_button_unchecked,
+                            color: selectedLanguage == language
+                                ? Colors.black
+                                : Colors.grey,
+                            size: 24,
+                          ),
                         ],
                       ),
                     ),
@@ -147,17 +173,19 @@ class _LanguageScreenState extends State<LanguageScreen> {
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Language selected: $selectedLanguage',
-                      ),
-                    ),
-                  );
-                },
+                onPressed: _saveLanguage,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 child: const Text(
                   'SAVE LANGUAGE',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

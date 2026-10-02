@@ -54,6 +54,8 @@ class Scroll2Screen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Activity Progress',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -69,9 +71,14 @@ class Scroll2Screen extends StatelessWidget {
 
           if (index == 1) {
             return const Padding(
-              padding: EdgeInsets.only(top: 26, bottom: 16),
+              padding: EdgeInsets.only(
+                top: 26,
+                bottom: 16,
+              ),
               child: Text(
                 'Your Progress',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -93,28 +100,36 @@ class Scroll2Screen extends StatelessWidget {
 
   Widget _buildHeaderImage() {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          'assets/images/Scroll 2.jpg',
-          width: 220,
-          height: 130,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.analytics_outlined,
-                size: 45,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            'assets/images/Scroll 2.jpg',
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Icon(
+                  Icons.analytics_outlined,
+                  size: 45,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -136,6 +151,9 @@ class Scroll2Screen extends StatelessWidget {
         children: [
           Text(
             'Keep Going!',
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -145,6 +163,8 @@ class Scroll2Screen extends StatelessWidget {
           Text(
             'You are making great progress toward your daily goals.',
             textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Colors.grey,
               height: 1.4,
@@ -172,10 +192,18 @@ class _ProgressCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
                 radius: 23,
@@ -183,13 +211,17 @@ class _ProgressCard extends StatelessWidget {
                 foregroundColor: Colors.black,
                 child: Icon(item.icon),
               ),
+
               const SizedBox(width: 14),
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       item.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -198,6 +230,8 @@ class _ProgressCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       item.value,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.grey,
                       ),
@@ -205,20 +239,30 @@ class _ProgressCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(
-                item.goal,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
+
+              const SizedBox(width: 10),
+
+              Flexible(
+                child: Text(
+                  item.goal,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ],
           ),
+
           const SizedBox(height: 16),
+
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: LinearProgressIndicator(
-              value: item.progress,
+              value: item.progress.clamp(0.0, 1.0),
               minHeight: 9,
               backgroundColor: const Color(0xFFEFEFEF),
               valueColor: const AlwaysStoppedAnimation<Color>(

@@ -94,6 +94,8 @@ class AllScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         title: const Text(
           'All',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -111,6 +113,7 @@ class AllScreen extends StatelessWidget {
               child: Container(
                 width: 220,
                 height: 130,
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
@@ -123,12 +126,12 @@ class AllScreen extends StatelessWidget {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(12),
                   child: Image.asset(
                     'assets/images/All.jpg',
-                    width: 220,
-                    height: 130,
-                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
                         child: Icon(
@@ -149,6 +152,8 @@ class AllScreen extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Explore Everything',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -172,75 +177,86 @@ class AllScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = categories[index];
 
-                return InkWell(
-                  onTap: () {
-                    openCategory(
-                      context,
-                      category['title'] as String,
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(18),
-                  child: Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.03),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 55,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF0F2F5),
-                            borderRadius: BorderRadius.circular(16),
+                return Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      openCategory(
+                        context,
+                        category['title'] as String,
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(18),
+                    child: Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.03),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
                           ),
-                          child: Icon(
-                            category['icon'] as IconData,
-                            size: 28,
-                            color: Colors.black,
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 55,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF0F2F5),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Icon(
+                              category['icon'] as IconData,
+                              size: 28,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
 
-                        const SizedBox(height: 12),
+                          const SizedBox(height: 12),
 
-                        Text(
-                          category['title'] as String,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            category['title'] as String,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
 
-                        const SizedBox(height: 6),
+                          const SizedBox(height: 6),
 
-                        Text(
-                          category['subtitle'] as String,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                category['subtitle'] as String,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 11,
+                                  height: 1.3,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 13,
                             color: Colors.grey,
-                            fontSize: 11,
-                            height: 1.3,
                           ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 13,
-                          color: Colors.grey,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

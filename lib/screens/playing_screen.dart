@@ -39,7 +39,11 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
   Future<void> _startMusic() async {
     try {
-      await _musicPlayer.setReleaseMode(ReleaseMode.loop);
+      await _musicPlayer.stop();
+
+      await _musicPlayer.setReleaseMode(
+        ReleaseMode.loop,
+      );
 
       await _musicPlayer.setVolume(1.0);
 
@@ -115,16 +119,27 @@ class _PlayingScreenState extends State<PlayingScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Workout Complete'),
+            title: const Text(
+              'Workout Complete',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
             content: const Text(
               'Congratulations! You completed your workout.',
+              softWrap: true,
             ),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('OK'),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           );
@@ -147,6 +162,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
       appBar: AppBar(
         title: const Text(
           'Playing',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -164,28 +181,46 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
             // Playing Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Playing.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.image_not_supported_outlined,
-                        size: 45,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Playing.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (
+                      context,
+                      error,
+                      stackTrace,
+                    ) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 45,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -194,6 +229,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
             const Text(
               'Now Playing',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -205,6 +242,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
             const Text(
               'Follow your workout and stay focused until you reach your goal.',
               textAlign: TextAlign.center,
+              softWrap: true,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -241,6 +279,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                   const Text(
                     'Full Body Workout',
                     textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -251,6 +291,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
                   const Text(
                     'Workout Session',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
@@ -275,6 +317,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                     children: [
                       Text(
                         formatTime(currentSeconds),
+                        maxLines: 1,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -282,6 +325,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                       ),
                       Text(
                         formatTime(totalSeconds),
+                        maxLines: 1,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -296,6 +340,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
+                        tooltip: 'Back 10 seconds',
                         onPressed: () {
                           changeProgress(-0.05);
                         },
@@ -307,21 +352,24 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
                       const SizedBox(width: 15),
 
-                      Container(
-                        width: 65,
-                        height: 65,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black,
-                        ),
-                        child: IconButton(
-                          onPressed: _toggleMusic,
-                          icon: Icon(
-                            isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                            color: Colors.white,
-                            size: 32,
+                      Material(
+                        color: Colors.black,
+                        shape: const CircleBorder(),
+                        child: InkWell(
+                          onTap: _toggleMusic,
+                          customBorder: const CircleBorder(),
+                          child: SizedBox(
+                            width: 65,
+                            height: 65,
+                            child: Center(
+                              child: Icon(
+                                isPlaying
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -329,6 +377,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                       const SizedBox(width: 15),
 
                       IconButton(
+                        tooltip: 'Forward 10 seconds',
                         onPressed: () {
                           changeProgress(0.05);
                         },
@@ -405,11 +454,15 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
           const SizedBox(height: 8),
 
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
 
@@ -417,6 +470,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 12,

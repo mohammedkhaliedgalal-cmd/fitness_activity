@@ -81,7 +81,6 @@ class DetailsScrollScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -89,13 +88,14 @@ class DetailsScrollScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Workout Details',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -154,28 +154,36 @@ class WorkoutHeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          imagePath,
-          width: 220,
-          height: 130,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE0E0E0),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.fitness_center,
-                size: 50,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Icon(
+                  Icons.fitness_center,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -203,6 +211,8 @@ class WorkoutTitleSection extends StatelessWidget {
       children: [
         Text(
           title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -246,9 +256,7 @@ class WorkoutInfoCardRow extends StatelessWidget {
           icon: Icons.timer_outlined,
           title: duration,
         ),
-
         const SizedBox(width: 12),
-
         InfoCard(
           icon: Icons.local_fire_department_outlined,
           title: calories,
@@ -272,7 +280,13 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        constraints: const BoxConstraints(
+          minHeight: 70,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 14,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -295,10 +309,15 @@ class InfoCard extends StatelessWidget {
             const SizedBox(width: 10),
 
             Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+              child: FittedBox(
+                alignment: Alignment.centerLeft,
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -328,6 +347,8 @@ class WorkoutExerciseList extends StatelessWidget {
       children: [
         const Text(
           'Workout Exercises',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 21,
             fontWeight: FontWeight.bold,
@@ -377,6 +398,7 @@ class ExerciseTile extends StatelessWidget {
             backgroundColor: const Color(0xFFE9EDF2),
             child: Text(
               exercise.number,
+              maxLines: 1,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -389,6 +411,8 @@ class ExerciseTile extends StatelessWidget {
           Expanded(
             child: Text(
               exercise.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -398,11 +422,15 @@ class ExerciseTile extends StatelessWidget {
 
           const SizedBox(width: 8),
 
-          Text(
-            exercise.duration,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 13,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              exercise.duration,
+              maxLines: 1,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 13,
+              ),
             ),
           ),
         ],
@@ -440,6 +468,8 @@ class StartWorkoutButton extends StatelessWidget {
         ),
         child: const Text(
           'START WORKOUT',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),

@@ -38,6 +38,7 @@ class _EditScreenState extends State<EditScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill in all fields.'),
+          behavior: SnackBarBehavior.floating,
         ),
       );
       return;
@@ -54,6 +55,7 @@ class _EditScreenState extends State<EditScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Changes saved successfully'),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
@@ -62,6 +64,7 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
+
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -69,54 +72,72 @@ class _EditScreenState extends State<EditScreen> {
         centerTitle: true,
         title: const Text(
           'Edit Profile',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            // Edit Profile Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  'assets/images/Edit.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF0F1F3),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(
-                        Icons.edit,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    'assets/images/Edit.jpg',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.edit,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
+
             const SizedBox(height: 28),
+
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Personal Information',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+
             const SizedBox(height: 18),
+
             TextField(
               controller: nameController,
               textInputAction: TextInputAction.next,
@@ -131,7 +152,9 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
+
             const SizedBox(height: 14),
+
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
@@ -147,7 +170,9 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
+
             const SizedBox(height: 14),
+
             TextField(
               controller: goalController,
               textInputAction: TextInputAction.done,
@@ -162,21 +187,35 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               ),
             ),
+
             const SizedBox(height: 24),
+
             SizedBox(
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
                 onPressed: saveChanges,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 child: const Text(
                   'SAVE CHANGES',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
+
             const SizedBox(height: 25),
+
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
@@ -196,24 +235,32 @@ class _EditScreenState extends State<EditScreen> {
                 children: [
                   const Text(
                     'Profile Preview',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 15),
+
                   _profileRow(
                     icon: Icons.person_outline,
                     title: 'Name',
                     value: savedName,
                   ),
+
                   const SizedBox(height: 12),
+
                   _profileRow(
                     icon: Icons.email_outlined,
                     title: 'Email',
                     value: savedEmail,
                   ),
+
                   const SizedBox(height: 12),
+
                   _profileRow(
                     icon: Icons.flag_outlined,
                     title: 'Fitness Goal',
@@ -222,6 +269,7 @@ class _EditScreenState extends State<EditScreen> {
                 ],
               ),
             ),
+
             const SizedBox(height: 10),
           ],
         ),
@@ -235,6 +283,7 @@ class _EditScreenState extends State<EditScreen> {
     required String value,
   }) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 42,
@@ -249,21 +298,29 @@ class _EditScreenState extends State<EditScreen> {
             size: 22,
           ),
         ),
+
         const SizedBox(width: 12),
+
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),
               ),
+
               const SizedBox(height: 3),
+
               Text(
                 value,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

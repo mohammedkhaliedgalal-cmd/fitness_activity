@@ -49,6 +49,8 @@ class Scroll3Screen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Achievements',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -70,6 +72,8 @@ class Scroll3Screen extends StatelessWidget {
               ),
               child: Text(
                 'Your Achievements',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -94,28 +98,42 @@ class Scroll3Screen extends StatelessWidget {
 
   Widget _buildHeaderImage() {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          'assets/images/Scroll 3.jpg',
-          width: 220,
-          height: 130,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.emoji_events,
-                size: 45,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            'assets/images/Scroll 3.jpg',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F2F5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.emoji_events,
+                  size: 45,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -132,6 +150,13 @@ class Scroll3Screen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: const Column(
         children: [
@@ -142,6 +167,8 @@ class Scroll3Screen extends StatelessWidget {
           SizedBox(height: 10),
           Text(
             'Great Job!',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -151,6 +178,8 @@ class Scroll3Screen extends StatelessWidget {
           Text(
             'Keep training to unlock more achievements.',
             textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Colors.grey,
             ),
@@ -177,8 +206,16 @@ class _AchievementTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 54,
@@ -199,6 +236,8 @@ class _AchievementTile extends StatelessWidget {
               children: [
                 Text(
                   achievement.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -207,6 +246,8 @@ class _AchievementTile extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   achievement.subtitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 13,
@@ -215,6 +256,7 @@ class _AchievementTile extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           const Icon(
             Icons.check_circle,
             size: 24,

@@ -19,6 +19,8 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       appBar: AppBar(
         title: const Text(
           'Privacy',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -44,6 +46,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
 
             const Text(
               'Privacy Settings',
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -55,6 +60,8 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
             const Text(
               'Control your privacy and activity visibility.',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -99,6 +106,8 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                 });
               },
             ),
+
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -113,44 +122,69 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   }) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 15,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(
             Icons.shield_outlined,
             size: 27,
             color: Colors.black,
           ),
+
           const SizedBox(width: 13),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 5),
+
                 Text(
                   subtitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
+                    height: 1.3,
                   ),
                 ),
               ],
             ),
           ),
+
+          const SizedBox(width: 8),
+
           Switch(
             value: value,
             onChanged: onChanged,
+            activeThumbColor: Colors.white,
+            activeTrackColor: Colors.black,
           ),
         ],
       ),

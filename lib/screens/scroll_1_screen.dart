@@ -54,6 +54,8 @@ class Scroll1Screen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Exercise List',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -69,9 +71,14 @@ class Scroll1Screen extends StatelessWidget {
 
           if (index == 1) {
             return const Padding(
-              padding: EdgeInsets.only(top: 26, bottom: 16),
+              padding: EdgeInsets.only(
+                top: 26,
+                bottom: 16,
+              ),
               child: Text(
                 'Today’s Exercises',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -98,28 +105,36 @@ class Scroll1Screen extends StatelessWidget {
 
   Widget _buildHeaderImage() {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          'assets/images/Scroll-1.jpg',
-          width: 220,
-          height: 130,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.fitness_center,
-                size: 45,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            'assets/images/Scroll-1.jpg',
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Icon(
+                  Icons.fitness_center,
+                  size: 45,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -139,12 +154,15 @@ class Scroll1Screen extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
+            elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
           child: const Text(
             'START EXERCISES',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -173,6 +191,13 @@ class _ExerciseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -182,18 +207,23 @@ class _ExerciseCard extends StatelessWidget {
             foregroundColor: Colors.black,
             child: Text(
               '$index',
+              maxLines: 1,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
+
           const SizedBox(width: 14),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   exercise.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -202,6 +232,8 @@ class _ExerciseCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   exercise.duration,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 13,
@@ -210,8 +242,13 @@ class _ExerciseCard extends StatelessWidget {
               ],
             ),
           ),
+
+          const SizedBox(width: 10),
+
           Text(
             exercise.calories,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,

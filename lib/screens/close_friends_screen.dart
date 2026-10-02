@@ -37,6 +37,8 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
           ),
           title: Text(
             friend['name']!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -60,6 +62,8 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
               Text(
                 friend['subtitle']!,
                 textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
@@ -72,7 +76,15 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('CLOSE'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+              ),
+              child: const Text(
+                'CLOSE',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         );
@@ -108,6 +120,8 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
         foregroundColor: Colors.black,
         title: const Text(
           'Close Friends',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -121,28 +135,36 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
           children: [
             // Close Friends Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  'assets/images/Close Friends.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(
-                        Icons.people_alt_outlined,
-                        size: 55,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    'assets/images/Close Friends.jpg',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          size: 55,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -153,6 +175,8 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Your Close Friends',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -200,6 +224,8 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
                         children: [
                           Text(
                             friend['name']!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -232,11 +258,18 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
                         side: const BorderSide(
                           color: Colors.black26,
                         ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text('View'),
+                      child: const Text(
+                        'View',
+                        maxLines: 1,
+                      ),
                     ),
                   ],
                 ),
@@ -259,6 +292,8 @@ class _CloseFriendsScreenState extends State<CloseFriendsScreen> {
                 ),
                 child: const Text(
                   'ADD CLOSE FRIEND',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

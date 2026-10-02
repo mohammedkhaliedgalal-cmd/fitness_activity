@@ -52,6 +52,8 @@ class FitnessOverviewScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Fitness Overview',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -65,20 +67,28 @@ class FitnessOverviewScreen extends StatelessWidget {
             const HeaderImage(
               imagePath: 'assets/images/Frame 3.jpg',
             ),
+
             const SizedBox(height: 28),
+
             const HeaderTitleSection(
               title: 'Your Fitness Journey',
               subtitle:
                   'Stay active, track your progress, and reach your fitness goals.',
             ),
+
             const SizedBox(height: 26),
+
             const FeatureList(
               features: _features,
             ),
-            const SizedBox(height: 8),
+
+            const SizedBox(height: 20),
+
             GetStartedButton(
               onPressed: () {},
             ),
+
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -101,28 +111,36 @@ class HeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          imagePath,
-          width: 220,
-          height: 130,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F1F3),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.fitness_center,
-                size: 50,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Icon(
+                  Icons.fitness_center,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -150,12 +168,16 @@ class HeaderTitleSection extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
+
         const SizedBox(height: 8),
+
         Text(
           subtitle,
           textAlign: TextAlign.center,
@@ -229,6 +251,7 @@ class FeatureCard extends StatelessWidget {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 52,
@@ -243,21 +266,29 @@ class FeatureCard extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+
           const SizedBox(width: 14),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   feature.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 5),
+
                 Text(
                   feature.subtitle,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 13,
@@ -292,8 +323,18 @@ class GetStartedButton extends StatelessWidget {
       height: 52,
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         child: const Text(
           'GET STARTED',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),

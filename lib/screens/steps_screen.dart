@@ -98,28 +98,38 @@ class _StepsScreenState extends State<StepsScreen> {
           children: [
             // IMAGE
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Stats Scroll.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.directions_walk,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Stats Scroll.jpg',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.directions_walk,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -158,9 +168,7 @@ class _StepsScreenState extends State<StepsScreen> {
                     size: 45,
                     color: Colors.black,
                   ),
-
                   const SizedBox(height: 12),
-
                   Text(
                     formatNumber(currentSteps),
                     style: const TextStyle(
@@ -168,9 +176,7 @@ class _StepsScreenState extends State<StepsScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 5),
-
                   const Text(
                     'Steps',
                     style: TextStyle(
@@ -178,7 +184,6 @@ class _StepsScreenState extends State<StepsScreen> {
                       fontSize: 15,
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
                   // + / -
@@ -187,9 +192,8 @@ class _StepsScreenState extends State<StepsScreen> {
                     children: [
                       _controlButton(
                         icon: Icons.remove,
-                        onPressed: currentSteps > 0
-                            ? removeSteps
-                            : null,
+                        onPressed:
+                            currentSteps > 0 ? removeSteps : null,
                       ),
                       const SizedBox(width: 15),
                       _controlButton(
@@ -254,16 +258,18 @@ class _StepsScreenState extends State<StepsScreen> {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${formatNumber(currentSteps)} / ${formatNumber(widget.goalSteps)}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                      Expanded(
+                        child: Text(
+                          '${formatNumber(currentSteps)} / ${formatNumber(widget.goalSteps)}',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 10),
                       Text(
                         '$percentage%',
                         style: const TextStyle(
@@ -282,8 +288,7 @@ class _StepsScreenState extends State<StepsScreen> {
                     child: LinearProgressIndicator(
                       value: progress,
                       minHeight: 10,
-                      backgroundColor:
-                          const Color(0xFFF0F1F3),
+                      backgroundColor: const Color(0xFFF0F1F3),
                       valueColor:
                           const AlwaysStoppedAnimation<Color>(
                         Colors.black,
@@ -378,11 +383,15 @@ class _StepsScreenState extends State<StepsScreen> {
             ),
           ),
           const SizedBox(height: 5),
-          Text(
-            value,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+              ),
             ),
           ),
         ],

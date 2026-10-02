@@ -43,6 +43,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
       appBar: AppBar(
         title: const Text(
           'Live Session',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -60,28 +62,36 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
 
             // Live Session Image
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/Live session.jpg',
-                  width: 220,
-                  height: 130,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 220,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Icon(
-                        Icons.live_tv_outlined,
-                        size: 55,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+              child: Container(
+                width: 220,
+                height: 130,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/images/Live session.jpg',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.live_tv_outlined,
+                          size: 55,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -91,6 +101,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
             const Text(
               'Live Workout',
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -102,6 +114,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
             const Text(
               'Join a live workout session and train with other athletes.',
               textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
@@ -152,6 +166,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                           children: [
                             Text(
                               'Full Body Workout',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -160,6 +176,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                             SizedBox(height: 4),
                             Text(
                               'with Fitness Coach',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 13,
@@ -169,7 +187,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                         ),
                       ),
 
-                      if (isLive)
+                      if (isLive) ...[
+                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 9,
@@ -181,6 +200,7 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                           ),
                           child: const Text(
                             'LIVE',
+                            maxLines: 1,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 10,
@@ -188,6 +208,7 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                             ),
                           ),
                         ),
+                      ],
                     ],
                   ),
 
@@ -203,6 +224,7 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                       const SizedBox(width: 8),
                       const Text(
                         '45 minutes',
+                        maxLines: 1,
                         style: TextStyle(
                           fontSize: 13,
                         ),
@@ -214,10 +236,15 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                         color: Colors.grey,
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        '$participants participants',
-                        style: const TextStyle(
-                          fontSize: 13,
+                      Flexible(
+                        child: Text(
+                          '$participants participants',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     ],
@@ -234,6 +261,14 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
               height: 55,
               child: ElevatedButton.icon(
                 onPressed: toggleLiveSession,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
                 icon: Icon(
                   isLive
                       ? Icons.stop_circle_outlined
@@ -241,6 +276,8 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
                 ),
                 label: Text(
                   isLive ? 'LEAVE SESSION' : 'JOIN LIVE SESSION',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

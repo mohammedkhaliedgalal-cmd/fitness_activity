@@ -68,6 +68,8 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Home',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -91,6 +93,7 @@ class HomeScreen extends StatelessWidget {
             NavigationCardList(
               items: _navigationItems,
             ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -113,28 +116,42 @@ class HomeHeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          imagePath,
-          width: 220,
-          height: 130,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 220,
-              height: 130,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F1F3),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(
-                Icons.home_outlined,
-                size: 50,
-                color: Colors.grey,
-              ),
-            );
-          },
+      child: Container(
+        width: 220,
+        height: 130,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            imagePath,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F1F3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.home_outlined,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -162,6 +179,8 @@ class HomeWelcomeText extends StatelessWidget {
       children: [
         Text(
           title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -170,6 +189,8 @@ class HomeWelcomeText extends StatelessWidget {
         const SizedBox(height: 5),
         Text(
           subtitle,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             color: Colors.grey,
             fontSize: 13,
@@ -253,6 +274,7 @@ class HomeNavigationCard extends StatelessWidget {
             ],
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 width: 46,
@@ -274,6 +296,8 @@ class HomeNavigationCard extends StatelessWidget {
                   children: [
                     Text(
                       item.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -282,6 +306,8 @@ class HomeNavigationCard extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       item.subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
@@ -290,6 +316,7 @@ class HomeNavigationCard extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(width: 8),
               const Icon(
                 Icons.arrow_forward_ios,
                 size: 15,
